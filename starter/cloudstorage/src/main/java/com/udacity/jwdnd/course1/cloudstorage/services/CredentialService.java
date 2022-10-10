@@ -23,16 +23,23 @@ public class CredentialService {
         return credentialMapper;
     }
 
-    public void addCredentials(String url, String username, String credentialUsername, String password, Integer key){
+    public void addCredential(String url, String username, String credentialUsername, String password, Integer key){
         Integer userid = userMapper.getUser(username).getUserid();
         Credential credential = new Credential(0, url, credentialUsername, key, password, userid);
         credentialMapper.insert(credential);}
 
-    public Credential[] getNoteListings(Integer userid){
+    public Credential[] getCredentialListings(Integer userid) {
         return credentialMapper.getCredentialListings(userid);
     }
 
-    public Credential[] getCredentialListings(Integer userid) {
-        return credentialMapper.getCredentialListings(userid);
+    public Credential getCredential(Integer noteid){
+        return credentialMapper.getCredential(noteid);
+    }
+
+    public void deleteCredential(Integer noteId) {
+        credentialMapper.deleteCredential(noteId);
+    }
+    public void updateCredential(Integer credentialid, String newUsername, String url, String key, Integer password){
+        credentialMapper.updateCredential(credentialid, newUsername, url, key, password);
     }
 }

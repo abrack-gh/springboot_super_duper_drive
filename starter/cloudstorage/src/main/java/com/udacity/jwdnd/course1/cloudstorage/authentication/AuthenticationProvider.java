@@ -1,5 +1,2 @@
-package com.udacity.jwdnd.course1.cloudstorage.authentication;
-
-public class AuthenticationProvider {
-    
+package com.udacity.jwdnd.course1.cloudstorage.authentication;public class AuthenticationProvider {
 }
