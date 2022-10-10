@@ -6,11 +6,12 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
+@Service
 public class AuthenticationService implements AuthenticationProvider {
-
     private final UserMapper userMapper;
     private final HashService hashService;
 
@@ -18,6 +19,7 @@ public class AuthenticationService implements AuthenticationProvider {
         this.userMapper = userMapper;
         this.hashService = hashService;
     }
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
