@@ -55,7 +55,7 @@ public class CredentialController {
         byte[] key = new byte[16];
         random.nextBytes(key);
         String encodedKey = Base64.getEncoder().encodeToString(key);
-        Integer encryptedPassword = encryptionService.encryptValue(password, encodedKey);
+        Integer encryptedPassword = Integer.valueOf(encryptionService.encryptValue(password, encodedKey));
 
         if (credentialIdStr.isEmpty()) {
             credentialService.addCredential(newurl, username, newCredential.getUsername(), encodedKey, encryptedPassword);
