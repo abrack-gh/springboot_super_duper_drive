@@ -48,14 +48,14 @@ class CloudStorageApplicationTests {
 	 * PLEASE DO NOT DELETE THIS method.
 	 * Helper method for Udacity-supplied sanity checks.
 	 **/
-	private void doMockSignUp(String firstName, String lastName, String userName, String password){
+	private void doMockSignUp(String firstName, String lastName, String userName, String password) {
 		// Create a dummy account for logging in later.
 
 		// Visit the sign-up page.
 		WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
 		driver.get("http://localhost:" + this.port + "/signup");
 		webDriverWait.until(ExpectedConditions.titleContains("Sign Up"));
-		
+
 		// Fill out credentials
 		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("inputFirstName")));
 		WebElement inputFirstName = driver.findElement(By.id("inputFirstName"));
@@ -89,14 +89,12 @@ class CloudStorageApplicationTests {
 		Assertions.assertTrue(driver.findElement(By.id("success-msg")).getText().contains("You successfully signed up!"));
 	}
 
-	
-	
+
 	/**
 	 * PLEASE DO NOT DELETE THIS method.
 	 * Helper method for Udacity-supplied sanity checks.
 	 **/
-	private void doLogIn(String userName, String password)
-	{
+	private void doLogIn(String userName, String password) {
 		// Log in to our dummy account.
 		driver.get("http://localhost:" + this.port + "/login");
 		WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
@@ -120,43 +118,43 @@ class CloudStorageApplicationTests {
 	}
 
 	/**
-	 * PLEASE DO NOT DELETE THIS TEST. You may modify this test to work with the 
-	 * rest of your code. 
-	 * This test is provided by Udacity to perform some basic sanity testing of 
-	 * your code to ensure that it meets certain rubric criteria. 
-	 * 
-	 * If this test is failing, please ensure that you are handling redirecting users 
+	 * PLEASE DO NOT DELETE THIS TEST. You may modify this test to work with the
+	 * rest of your code.
+	 * This test is provided by Udacity to perform some basic sanity testing of
+	 * your code to ensure that it meets certain rubric criteria.
+	 * <p>
+	 * If this test is failing, please ensure that you are handling redirecting users
 	 * back to the login page after a succesful sign up.
-	 * Read more about the requirement in the rubric: 
-	 * https://review.udacity.com/#!/rubrics/2724/view 
+	 * Read more about the requirement in the rubric:
+	 * https://review.udacity.com/#!/rubrics/2724/view
 	 */
 	@Test
 	public void testRedirection() {
 		// Create a test account
-		doMockSignUp("Redirection","Test","RT","123");
-		
+		doMockSignUp("Redirection", "Test", "RT", "123");
+
 		// Check if we have been redirected to the log in page.
 		Assertions.assertEquals("http://localhost:" + this.port + "/login", driver.getCurrentUrl());
 	}
 
 	/**
-	 * PLEASE DO NOT DELETE THIS TEST. You may modify this test to work with the 
-	 * rest of your code. 
-	 * This test is provided by Udacity to perform some basic sanity testing of 
-	 * your code to ensure that it meets certain rubric criteria. 
-	 * 
-	 * If this test is failing, please ensure that you are handling bad URLs 
+	 * PLEASE DO NOT DELETE THIS TEST. You may modify this test to work with the
+	 * rest of your code.
+	 * This test is provided by Udacity to perform some basic sanity testing of
+	 * your code to ensure that it meets certain rubric criteria.
+	 * <p>
+	 * If this test is failing, please ensure that you are handling bad URLs
 	 * gracefully, for example with a custom error page.
-	 * 
-	 * Read more about custom error pages at: 
+	 * <p>
+	 * Read more about custom error pages at:
 	 * https://attacomsian.com/blog/spring-boot-custom-error-page#displaying-custom-error-page
 	 */
 	@Test
 	public void testBadUrl() {
 		// Create a test account
-		doMockSignUp("URL","Test","UT","123");
+		doMockSignUp("URL", "Test", "UT", "123");
 		doLogIn("UT", "123");
-		
+
 		// Try to access a random made-up URL.
 		driver.get("http://localhost:" + this.port + "/some-random-page");
 		Assertions.assertFalse(driver.getPageSource().contains("Whitelabel Error Page"));
@@ -164,21 +162,21 @@ class CloudStorageApplicationTests {
 
 
 	/**
-	 * PLEASE DO NOT DELETE THIS TEST. You may modify this test to work with the 
-	 * rest of your code. 
-	 * This test is provided by Udacity to perform some basic sanity testing of 
-	 * your code to ensure that it meets certain rubric criteria. 
-	 * 
+	 * PLEASE DO NOT DELETE THIS TEST. You may modify this test to work with the
+	 * rest of your code.
+	 * This test is provided by Udacity to perform some basic sanity testing of
+	 * your code to ensure that it meets certain rubric criteria.
+	 * <p>
 	 * If this test is failing, please ensure that you are handling uploading large files (>1MB),
-	 * gracefully in your code. 
-	 * 
-	 * Read more about file size limits here: 
+	 * gracefully in your code.
+	 * <p>
+	 * Read more about file size limits here:
 	 * https://spring.io/guides/gs/uploading-files/ under the "Tuning File Upload Limits" section.
 	 */
 	@Test
 	public void testLargeUpload() {
 		// Create a test account
-		doMockSignUp("Large File","Test","LFT","123");
+		doMockSignUp("Large File", "Test", "LFT", "123");
 		doLogIn("LFT", "123");
 
 		// Try to upload an arbitrary large file
@@ -200,6 +198,41 @@ class CloudStorageApplicationTests {
 
 	}
 
+	@Test
+	public WebElement RegisterLoginAndNewNote(String USERNAME1, String PASSWORD1) throws InterruptedException {
+		driver.get("http://localhost" + this.port + "/signup");
+		WebElement inputUsernameLogin = driver.findElement(By.id("inputUsername"));
+		inputUsernameLogin.click();
+		inputUsernameLogin.sendKeys(USERNAME1);
+
+		WebElement inputPasswordLogin = driver.findElement(By.id("inputPassword"));
+		inputPasswordLogin.click();
+		inputPasswordLogin.sendKeys(PASSWORD1);
+
+		WebElement submitLogin = driver.findElement(By.id("submit-button"));
+		submitLogin.click();
+		WebDriverWait webDriverWaitLogin = new WebDriverWait(driver, 2);
+
+		Assertions.assertEquals("Home", driver.getTitle());
+
+		WebElement newNote = driver.findElement(By.id("newNoteBtn"));
+		newNote.click();
+		WebElement noteTitle = driver.findElement(By.id("note-title"));
+		noteTitle.sendKeys("testName");
+		WebElement noteDescription = driver.findElement(By.id("note-description"));
+		noteDescription.sendKeys("test");
+		WebElement submitNote = driver.findElement(By.id("saveNote"));
+		submitNote.click();
+		WebDriverWait webDriverWaitSubmitNote = new WebDriverWait(driver, 5);
+
+		//check note exists
+
+		WebElement getNote = driver.findElement(By.id("note-title"));
+		return noteTitle;
+
+		// Update note
 
 
+
+	}
 }
