@@ -61,7 +61,7 @@ public class CredentialController {
             credentialService.addCredential(newurl, username, newCredential.getUsername(), encodedKey, encryptedPassword);
         } else {
             Credential existingCredential = getCredential(Integer.parseInt(credentialIdStr));
-            credentialService.updateCredential(existingCredential.getCredentialId(), newCredential.getUsername(), encodedKey, newurl, encryptedPassword);
+            credentialService.updateCredential(existingCredential.getCredentialid(), newCredential.getUsername(), encodedKey, newurl, encryptedPassword);
         }
         User user = userService.getUser(username);
         model.addAttribute("credentials", credentialService.getCredentialListings(user.getUserid()));

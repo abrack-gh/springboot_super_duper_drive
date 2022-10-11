@@ -1,72 +1,72 @@
 package com.udacity.jwdnd.course1.cloudstorage.model;
-
-
-
 public class Credential {
-    private Integer credentialId;
+    private Integer credentialid;
     private String url;
-    private String username;
-    private Integer key;
+    private String userName;
+    private String key;
     private String password;
     private Integer userid;
 
-    public Credential(Integer credentialId, String url, String username, Integer key, String password, Integer userid){
-        this.credentialId = credentialId;
+    public Credential(Integer credentialid, String url, String userName, String key, String password, Integer userid) {
+        this.credentialid = credentialid;
         this.url = url;
-        this.username = username;
+        this.userName = userName;
         this.key = key;
         this.password = password;
         this.userid = userid;
     }
 
-    public Credential(String url, String username, String password){
+    public Credential(String url, String userName, String password) {
         this.url = url;
-        this.username = username;
+        this.userName = userName;
         this.password = password;
     }
 
-    public Integer getCredentialId() {
-        return credentialId;
+    public Credential(int credentialid, String url, String credentialUsername, Integer key, String password, Integer userid) {
+    }
+
+    public Integer getCredentialid() {
+        return credentialid;
+    }
+
+    public void setCredentialid(Integer credentialid) {
+        this.credentialid = credentialid;
     }
 
     public String getUrl() {
         return url;
     }
 
-    public String getUsername() {
-        return username;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public Integer getKey() {
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getKey() {
         return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public Integer getUserid() {
-        return userid;
-    }
-
-    public void setCredentialId(Integer credentialId) {
-        this.credentialId = credentialId;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setKey(Integer key) {
-        this.key = key;
-    }
-
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Integer getUserid() {
+        return userid;
     }
 
     public void setUserid(Integer userid) {

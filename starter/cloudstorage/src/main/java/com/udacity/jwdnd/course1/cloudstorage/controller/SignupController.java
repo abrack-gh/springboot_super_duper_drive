@@ -7,8 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller
+@Controller()
+@RequestMapping("/signup")
 public class SignupController {
 
     private final UserService userService;
@@ -17,18 +19,17 @@ public class SignupController {
         this.userService = userService;
     }
 
-    @GetMapping("/signup")
-    public String getSignupPage() {
+    @GetMapping()
+    public String signupView() {
         return "signup";
-
     }
 
-    @PostMapping("/signup")
-    public String SignUp(@ModelAttribute User user, Model model) {
+    @PostMapping()
+    public String signupUser(@ModelAttribute User user, Model model) {
         String signupError = null;
 
-        if (!userService.isUsernameAvailable){
-            signupError = "Username taken.";
+        if (!userService.isUsernameAvailable(user.getUsername())) {
+            signupError = "The username already exists.";
         }
 
         if (signupError == null) {
@@ -37,6 +38,7 @@ public class SignupController {
                 signupError = "There was an error signing you up. Please try again.";
             }
         }
+
         if (signupError == null) {
             model.addAttribute("signupSuccess", true);
         } else {
