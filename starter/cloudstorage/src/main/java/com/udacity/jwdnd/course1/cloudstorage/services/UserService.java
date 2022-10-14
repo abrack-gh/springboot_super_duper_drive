@@ -18,6 +18,13 @@ public class UserService {
         this.hashService = hashService;
     }
 
+    public boolean isUsernameAvailable(String username) {
+        if(userMapper.getUser(username) != null)
+            return true;
+        else
+            return false;
+    }
+
     public int createUser(User user) {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
@@ -30,8 +37,5 @@ public class UserService {
         return userMapper.getUser(username);
     }
 
-    public boolean isUsernameAvailable(String username) {
-        return false;
-    }
 }
 

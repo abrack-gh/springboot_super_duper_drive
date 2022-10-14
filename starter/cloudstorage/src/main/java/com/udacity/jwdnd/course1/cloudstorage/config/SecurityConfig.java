@@ -10,29 +10,21 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    private final AuthenticationService authenticationService;
-
-    public SecurityConfig(AuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(this.authenticationService);
-    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/signup/**", "loginDo", "/css/**", "/js/**").permitAll()
-                .anyRequest().authenticated();
-
-        http.formLogin()
-                .loginPage("/login")
+                .antMatchers("/signup/**","/loginDo","/css/**", "/js/**", "/h2/**")
                 .permitAll()
+                .anyRequest().authenticated();
+        http.formLogin()
+                .loginPage("/login").permitAll();
+        http.formLogin()
                 .defaultSuccessUrl("/home", true);
-
-        http.logout();
+        http.logout(logout -> logout
+                .logoutUrl("home/logout")
+                .logoutSuccessUrl("/login"));
+        http.csrf()
+                .ignoringAntMatchers("/h2/**");
+        http.headers().frameOptions().sameOrigin();
     }
 }

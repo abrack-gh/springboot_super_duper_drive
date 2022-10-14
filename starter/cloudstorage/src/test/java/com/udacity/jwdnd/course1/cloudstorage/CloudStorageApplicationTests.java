@@ -143,7 +143,7 @@ class CloudStorageApplicationTests {
 		WebElement notesTable = driver.findElement(By.id("userTable"));
 		List<WebElement> notesList = notesTable.findElements(By.tagName("th"));
 		Boolean created = false;
-		for (int i=0; i < notesList.size(); i++) {
+		for (int i = 0; i < notesList.size(); i++) {
 			WebElement element = notesList.get(i);
 			if (element.getAttribute("innerHTML").equals(noteTitle)) {
 				created = true;
@@ -154,5 +154,140 @@ class CloudStorageApplicationTests {
 
 	}
 
+	private void deleteNote() {
+		JavascriptExecutor jse = (JavascriptExecutor) driver;
+		WebDriverWait delWait = new WebDriverWait(driver, 5);
+		driver.get("http://localhost:" + this.port + "/login");
+		WebElement inputUsername = driver.findElement(By.id("inputUsername"));
+		inputUsername.sendKeys(userName);
+		WebElement inputPassword = driver.findElement(By.id("inputPassword"));
+		inputPassword.sendKeys(password);
+		WebElement loginButton = driver.findElement(By.id("login"));
+		loginButton.click();
+		Assertions.assertEquals("Home", driver.getTitle());
 
+		WebElement noteTab = driver.findElement(By.id("nav-notes-tab"));
+		jse.executeScript("arguments[0].click()", noteTab);
+		WebElement notesTable = driver.findElement(By.id("userTable"));
+		List<WebElement> notesList = notesTable.findElements(By.tagName("td"));
+		WebElement deleteElement = null;
+		for (int i = 0; i < notesList.size(); i++) {
+			WebElement element = notesList.get(i);
+			deleteElement = element.findElement(By.name("delete"));
+			if (deleteElement != null) {
+				break;
+			}
+			delWait.until(ExpectedConditions.elementToBeClickable(deleteElement)).click();
+			Assertions.assertEquals("Result", driver.getTitle());
+		}
+	}
+	@Test
+	public void CredentialCreation(){
+		WebDriverWait credWait = new WebDriverWait(driver, 5);
+		JavascriptExecutor js_ex = (JavascriptExecutor) driver;
+
+		driver.get("http://localhost:" + this.port + "/login");
+		WebElement inputUsername = driver.findElement(By.id("inputUsername"));
+		inputUsername.sendKeys(userName);
+		WebElement inputPassword = driver.findElement(By.id("inputPassword"));
+		inputPassword.sendKeys(password);
+		WebElement loginButton = driver.findElement(By.id("login"));
+		loginButton.click();
+		Assertions.assertEquals("Home", driver.getTitle());
+
+		WebElement credTab = driver.findElement(By.id("nav-credentials-tab"));
+		js_ex.executeScript("arguments[0].click()", credTab);
+		credWait.withTimeout(Duration.ofSeconds(30));
+		WebElement newCred = driver.findElement(By.id("newcred"));
+		credWait.until(ExpectedConditions.elementToBeClickable(newCred)).click();
+		credWait.until(ExpectedConditions.elementToBeClickable(By.id("credential-url"))).sendKeys(credURL);
+		WebElement credUsername = driver.findElement(By.id("credential-username"));
+		credUsername.sendKeys(userName);
+		WebElement credPassword = driver.findElement(By.id("credential-password"));
+		credPassword.sendKeys(password);
+		WebElement submit = driver.findElement(By.id("save-credential"));
+		submit.click();
+		Assertions.assertEquals("Result", driver.getTitle());
+
+		driver.get("http://localhost" + this.port + "/home");
+		credTab = driver.findElement(By.id("nav-credentials-tab"));
+		js_ex.executeScript("arguments[0].click()", credTab);
+		WebElement credsTable = driver.findElement(By.id("credentialTable"));
+		List<WebElement> credsList = credsTable.findElements(By.tagName("td"));
+		Boolean created = false;
+		for (int i=0; i < credsList.size(); i++) {
+			WebElement element = credsList.get(i);
+			if (element.getAttribute("innerHTML").equals(userName)) {
+				created = true;
+				break;
+			}
+		}
+		Assertions.assertTrue(created);
+	}
+
+	@Test
+	public void credentialUpdate() {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		JavascriptExecutor jse = (JavascriptExecutor) driver;
+		String newCredUsername = "user1";
+
+		driver.get("http://localhost:" + this.port + "/login");
+		WebElement inputUsername = driver.findElement(By.id("inputUsername"));
+		inputUsername.sendKeys(userName);
+		WebElement inputPassword = driver.findElement(By.id("inputPassword"));
+		inputPassword.sendKeys(password);
+		WebElement loginButton = driver.findElement(By.id("login"));
+		loginButton.click();
+		Assertions.assertEquals("Home", driver.getTitle());
+
+		WebElement credTab = driver.findElement(By.id("nav-credentials-tab"));
+		jse.executeScript("arguments[0].click()", credTab);
+		WebElement credsTable = driver.findElement(By.id("credentialTable"));
+		List<WebElement> credsList = credsTable.findElements(By.tagName("td"));
+		WebElement editElement = null;
+		for (int i = 0; i < credsList.size(); i++) {
+			WebElement element = credsList.get(i);
+			editElement = element.findElement(By.name("editCred"));
+			if (editElement != null) {
+				break;
+			}
+		}
+		wait.until(ExpectedConditions.elementToBeClickable(editElement)).click();
+		WebElement credUsername = driver.findElement(By.id("credential-username"));
+		wait.until(ExpectedConditions.elementToBeClickable(credUsername));
+		credUsername.clear();
+		credUsername.sendKeys(newCredUsername);
+		WebElement savechanges = driver.findElement(By.id("save-credential"));
+		savechanges.click();
+		Assertions.assertEquals("Result", driver.getTitle());
+	}
+	@Test
+	public void credentialDeletionTest() {
+		WebDriverWait wait = new WebDriverWait (driver, 30);
+		JavascriptExecutor jse =(JavascriptExecutor) driver;
+		//login
+		driver.get("http://localhost:" + this.port + "/login");
+		WebElement inputUsername = driver.findElement(By.id("inputUsername"));
+		inputUsername.sendKeys(userName);
+		WebElement inputPassword = driver.findElement(By.id("inputPassword"));
+		inputPassword.sendKeys(password);
+		WebElement loginButton = driver.findElement(By.id("login"));
+		loginButton.click();
+		Assertions.assertEquals("Home", driver.getTitle());
+
+		WebElement credTab = driver.findElement(By.id("nav-credentials-tab"));
+		jse.executeScript("arguments[0].click()", credTab);
+		WebElement credsTable = driver.findElement(By.id("credentialTable"));
+		List<WebElement> credsList = credsTable.findElements(By.tagName("td"));
+		WebElement deleteElement = null;
+		for (int i = 0; i < credsList.size(); i++) {
+			WebElement element = credsList.get(i);
+			deleteElement = element.findElement(By.name("delete"));
+			if (deleteElement != null){
+				break;
+			}
+		}
+		wait.until(ExpectedConditions.elementToBeClickable(deleteElement)).click();
+		Assertions.assertEquals("Result", driver.getTitle());
+	}
 }
