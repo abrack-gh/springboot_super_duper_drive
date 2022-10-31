@@ -10,21 +10,37 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private AuthenticationService authenticationService;
+
+    public SecurityConfig(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) {
+        auth.authenticationProvider(this.authenticationService);
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/signup/**","/loginDo","/css/**", "/js/**", "/h2/**")
-                .permitAll()
+                .antMatchers("/signup", "/css/**", "/js/**" ,  "/h2-console/**").permitAll()
                 .anyRequest().authenticated();
+
+        // To avoid the HTTP-403 Forbidden error
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
+
         http.formLogin()
-                .loginPage("/login").permitAll();
+                .loginPage("/login")
+                .permitAll();
+
         http.formLogin()
                 .defaultSuccessUrl("/home", true);
-        http.logout(logout -> logout
-                .logoutUrl("home/logout")
-                .logoutSuccessUrl("/login"));
-        http.csrf()
-                .ignoringAntMatchers("/h2/**");
-        http.headers().frameOptions().sameOrigin();
+
+        http.logout().logoutUrl("/logout").logoutSuccessUrl("/login");
+
     }
+
 }

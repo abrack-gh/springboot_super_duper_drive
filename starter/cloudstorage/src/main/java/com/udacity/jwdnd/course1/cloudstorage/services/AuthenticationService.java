@@ -12,15 +12,12 @@ import java.util.ArrayList;
 
 @Service
 public class AuthenticationService implements AuthenticationProvider {
-    private final UserMapper userMapper;
-    private final HashService hashService;
+    private UserMapper userMapper;
+    private HashService hashService;
 
-    private final EncryptionService encryptionService;
-
-    public AuthenticationService(UserMapper userMapper, HashService hashService, EncryptionService encryptionService) {
+    public AuthenticationService(UserMapper userMapper, HashService hashService) {
         this.userMapper = userMapper;
         this.hashService = hashService;
-        this.encryptionService = encryptionService;
     }
 
     @Override
@@ -30,11 +27,9 @@ public class AuthenticationService implements AuthenticationProvider {
 
         User user = userMapper.getUser(username);
         if (user != null) {
-            String hashed_password = user.getPassword();
-            String seed = user.getSalt();
-            String hashedValue = hashService.getHashedValue(password, seed);
-            String hashed_value = encryptionService.encryptValue(password, seed);
-            if (hashed_value.equals(hashed_password)) {
+            String encodedSalt = user.getSalt();
+            String hashedPassword = hashService.getHashedValue(password, encodedSalt);
+            if (user.getPassword().equals(hashedPassword)) {
                 return new UsernamePasswordAuthenticationToken(username, password, new ArrayList<>());
             }
         }
