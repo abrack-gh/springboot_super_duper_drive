@@ -5,41 +5,56 @@ import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
+import java.util.Base64;
+import java.util.List;
+
 @Service
 public class CredentialService {
-    private final UserMapper userMapper;
-    private final CredentialMapper credentialMapper;
 
-    public CredentialService(UserMapper userMapper, CredentialMapper credentialMapper) {
-        this.userMapper = userMapper;
+    private CredentialMapper credentialMapper;
+    private EncryptionService encryptionService;
+
+    public CredentialService(CredentialMapper credentialMapper, EncryptionService encryptionService) {
         this.credentialMapper = credentialMapper;
+        this.encryptionService = encryptionService;
     }
 
-    public UserMapper getUserMapper() {
-        return userMapper;
+    public List<Credential> getCredentials(int userid){
+        return credentialMapper.getCredentials(userid);
     }
 
-    public CredentialMapper getCredentialMapper() {
-        return credentialMapper;
+    public void addCredentials(Credential credential, int userId){
+        SecureRandom random = new SecureRandom();
+        byte[] key = new byte[16];
+        random.nextBytes(key);
+        String encodedKey = Base64.getEncoder().encodeToString(key);
+        String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), encodedKey);
+
+        Credential newCredential = new Credential();
+        newCredential.setUrl(credential.getUrl());
+        newCredential.setUserName(credential.getUserName());
+        newCredential.setKey(encodedKey);
+        newCredential.setPassword(encryptedPassword);
+        newCredential.setUserid(userId);
+
+
+        credentialMapper.insertCredentials(newCredential);
     }
 
-    public void addCredential(String url, String username, String credentialUsername, String password, Integer key){
-        Integer userid = userMapper.getUser(username).getUserid();
-        Credential credential = new Credential(0, url, credentialUsername, key, password, userid);
-        credentialMapper.insert(credential);}
-
-    public Credential[] getCredentialListings(Integer userid) {
-        return credentialMapper.getCredentialListings(userid);
+    public int deleteCredentials(int credentialid){
+        return credentialMapper.deleteCredentials(credentialid);
     }
 
-    public Credential getCredential(Integer noteid){
-        return credentialMapper.getCredential(noteid);
-    }
+    public void editCredentials(Credential credential){
+        Credential storedCredential = credentialMapper.getCredentialById(credential.getCredentialid());
 
-    public void deleteCredential(Integer noteId) {
-        credentialMapper.deleteCredential(noteId);
-    }
-    public void updateCredential(Integer credentialid, String newUsername, String url, String key, Integer password){
-        credentialMapper.updateCredential(credentialid, newUsername, url, key, password);
+        credential.setKey(storedCredential.getKey());
+        String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), credential.getKey());
+        credential.setPassword(encryptedPassword);
+        credentialMapper.updateCredentials(credential);
     }
 }
+
+
+

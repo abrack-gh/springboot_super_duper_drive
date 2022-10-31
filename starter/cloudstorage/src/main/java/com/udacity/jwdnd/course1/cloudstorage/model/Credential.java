@@ -16,13 +16,20 @@ public class Credential {
         this.userid = userid;
     }
 
+
+
     public Credential(String url, String userName, String password) {
         this.url = url;
         this.userName = userName;
         this.password = password;
     }
 
-    public Credential(int credentialid, String url, String credentialUsername, Integer key, String password, Integer userid) {
+    public Credential(String userName) {
+        this.userName = userName;
+    }
+
+    public Credential() {
+
     }
 
     public Integer getCredentialid() {

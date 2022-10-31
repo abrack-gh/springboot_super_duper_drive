@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
+import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.*;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.EncryptionService;
@@ -8,89 +9,51 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.SecureRandom;
 import java.util.Base64;
 
+@RequestMapping("/home/credentials")
 @Controller
-@RequestMapping("credential")
 public class CredentialController {
+    private CredentialService credentialService;
+    private UserMapper userMapper;
 
-    private final CredentialService credentialService;
-    private final EncryptionService encryptionService;
-    private final UserService userService;
-
-
-    public CredentialController(CredentialService credentialService, EncryptionService encryptionService, UserService userService) {
+    public CredentialController(CredentialService credentialService, UserMapper userMapper) {
         this.credentialService = credentialService;
-        this.encryptionService = encryptionService;
-        this.userService = userService;
+        this.userMapper = userMapper;
     }
 
-    @GetMapping
-    public String getHomePage(
-            Authentication authentication, @ModelAttribute("newFile")FileForm newFile,
-            @ModelAttribute("newCredential") CredentialForm newCredential,
-            @ModelAttribute("newNote") NoteForm newNote, Model model){
-        String userName = authentication.getName();
-        User user = userService.getUser(userName);
-        model.addAttribute("credentials", this.credentialService.getCredentialListings(user.getUserid()));
-        model.addAttribute("encryptionService", encryptionService);
+    @PostMapping
+    public String handleAddUpdateCredentials(Authentication authentication, Credential credential){
+        String loggedInUserName = (String) authentication.getPrincipal();
+        User user = userMapper.getUser(loggedInUserName);
+        Integer userId = user.getUserid();
 
-        return "home";
-
-    }
-
-    @PostMapping("add-credential")
-    public String newCredential(
-            Authentication authentication, @ModelAttribute("newFile") FileForm newFile,
-            @ModelAttribute("newCredential") CredentialForm newCredential, @ModelAttribute("newNote") NoteForm newNote,
-            Model model){
-        String username = authentication.getName();
-        String newurl = newCredential.getUrl();
-        String credentialIdStr = newCredential.getCredentialid();
-        String password = newCredential.getPassword();
-
-        SecureRandom random = new SecureRandom();
-        byte[] key = new byte[16];
-        random.nextBytes(key);
-        String encodedKey = Base64.getEncoder().encodeToString(key);
-        Integer encryptedPassword = Integer.valueOf(encryptionService.encryptValue(password, encodedKey));
-
-        if (credentialIdStr.isEmpty()) {
-            credentialService.addCredential(newurl, username, newCredential.getUsername(), encodedKey, encryptedPassword);
+        if (credential.getCredentialid() != null) {
+            credentialService.editCredentials(credential);
         } else {
-            Credential existingCredential = getCredential(Integer.parseInt(credentialIdStr));
-            credentialService.updateCredential(existingCredential.getCredentialid(), newCredential.getUsername(), encodedKey, newurl, encryptedPassword);
-        }
-        User user = userService.getUser(username);
-        model.addAttribute("credentials", credentialService.getCredentialListings(user.getUserid()));
-        model.addAttribute("encryptionService", encryptionService);
-        model.addAttribute("result", "success");
-
-        return "result";
+            credentialService.addCredentials(credential, userId);
         }
 
-        @GetMapping(value = "/get-credential{credentialid}")
-        public Credential getCredential(@PathVariable Integer credentialid){
-        return credentialService.getCredential(credentialid);
+        return "redirect:/result?success";
+    }
+
+    @GetMapping("/delete")
+    public String deleteCredentials(@RequestParam("id") int credentialid, Authentication authentication, RedirectAttributes redirectAttributes){
+        String loggedInUserName = (String) authentication.getPrincipal();
+        User user = userMapper.getUser(loggedInUserName);
+
+        if(credentialid > 0){
+            credentialService.deleteCredentials(credentialid);
+            return "redirect:/result?success";
         }
 
-        @GetMapping(value = "/delete-credential/{credentialid}")
-        public String deleteCredential(
-                Authentication authentication, @PathVariable Integer credentialid,
-                @ModelAttribute("newCredential") CredentialForm newCredential, @ModelAttribute("newFile") FileForm newFile,
-                @ModelAttribute("newNote") NoteForm newNote, Model model){
-        credentialService.deleteCredential(credentialid);
-        String username = authentication.getName();
-        User user = userService.getUser(username);
-        model.addAttribute("credentials", credentialService.getCredentialListings(user.getUserid()));
-        model.addAttribute("encryptionService", encryptionService);
-        model.addAttribute("result", "success");
 
-        return "result";
-        }
-
+        redirectAttributes.addAttribute("error", "Unable to delete the credentials.");
+        return "redirect:/result?error";
+    }
 }
 
 
