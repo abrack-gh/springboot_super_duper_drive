@@ -25,12 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/signup", "/css/**", "/js/**" ,  "/h2-console/**").permitAll()
+                .antMatchers("/signup", "/css/**", "/js/**").permitAll()
                 .anyRequest().authenticated();
-
-        // To avoid the HTTP-403 Forbidden error
-        http.csrf().disable();
-        http.headers().frameOptions().disable();
 
         http.formLogin()
                 .loginPage("/login")
@@ -38,9 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.formLogin()
                 .defaultSuccessUrl("/home", true);
-
-        http.logout().logoutUrl("/logout").logoutSuccessUrl("/login");
-
     }
+
 
 }
