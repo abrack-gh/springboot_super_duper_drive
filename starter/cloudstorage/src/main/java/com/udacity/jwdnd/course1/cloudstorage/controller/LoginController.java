@@ -8,15 +8,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 @Controller
+@RequestMapping("/login")
 public class LoginController {
-    @ModelAttribute("user")
-    public User getUserModel(){
-        return new User();
-    }
-    @GetMapping("/login")
-    public String getLoginView(Model model) {
-        model.addAttribute("welcomeMessage", "Welcome to the Login Page");
+
+    @GetMapping
+    public String loginView() {
         return "login";
     }
 }
