@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
+
 import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.CredentialForm;
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
@@ -58,13 +59,10 @@ public class FileController {
             } catch (FileAlreadyExistsException e) {
                 e.printStackTrace();
                 model.addAttribute("errorMessage", "File already exists!");
-            } catch (IOException e) {
-                e.printStackTrace();
-                model.addAttribute("errorMessage", "Unknown error!");
             }
         }
         model.addAttribute("tab", "nav-files-tab");
-        model.addAttribute("file", fileService.getUserFiles(userId));
+        model.addAttribute("file", fileService.getUploadedFiles(userId));
         model.addAttribute("notes", noteService.getUserNote(userId));
         model.addAttribute("credentials", credentialService.getUserCredentials(userId));
 
