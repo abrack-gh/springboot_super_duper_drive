@@ -18,6 +18,10 @@ public class Notes {
         this.notedescription = notedescription;
     }
 
+    public Notes() {
+
+    }
+
     public Integer getNodeid() {
         return nodeid;
     }

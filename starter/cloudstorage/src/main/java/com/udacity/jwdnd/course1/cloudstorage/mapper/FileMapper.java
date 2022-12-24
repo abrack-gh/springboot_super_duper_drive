@@ -1,6 +1,5 @@
 package com.udacity.jwdnd.course1.cloudstorage.mapper;
 
-import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import org.apache.ibatis.annotations.*;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
@@ -27,6 +26,6 @@ public interface FileMapper {
     int deleteFile(int fileId);
 
     @Select("SELECT * FROM FILES WHERE userid = #{userid} AND filename = #{filename}")
-    File getFile(Integer userid, String filename);
+    boolean getFile(Integer userid, String filename);
 }
 
