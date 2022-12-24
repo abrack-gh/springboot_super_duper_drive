@@ -44,4 +44,8 @@ public class FileService {
     public Object getUserFiles(int userId) {
         return this.fileMapper.getAllFiles(userId);
     }
+
+    public Object getUserFiles(int userId) {
+        return this.fileMapper.getAllFiles(userId);
+    }
 }
