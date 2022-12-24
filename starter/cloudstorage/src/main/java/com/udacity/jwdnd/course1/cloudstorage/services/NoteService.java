@@ -35,5 +35,9 @@ public class NoteService {
     public void updateNote(Integer noteId, String title, String description) {
         notesMapper.updateNote(noteId, title, description);
     }
+
+    public Object getUserNote(int userId) {
+        return this.notesMapper.getNote(userId);
+    }
 }
 
