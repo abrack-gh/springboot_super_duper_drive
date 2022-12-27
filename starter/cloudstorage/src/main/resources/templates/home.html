@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
@@ -49,12 +52,12 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="newFile : ${fileList}">
+                        <tr th:each="file : ${files}">
                             <td>
-                                <a target="_blank" th:href="@{/file/view(id=${newFile.fileId})}" class="btn btn-success">View</a>
-                                <a  class="btn btn-danger" th:href="@{/file/delete(id=${newFile.fileId})}" >Delete</a>
+                                <a target="_blank" th:href="@{/files/view(id=${newFile.fileId})}" class="btn btn-success">View</a>
+                                <a  class="btn btn-danger" th:href="@{/files/delete(id=${file.fileid})}" >Delete</a>
                             </td>
-                            <th scope="row" th:text="${newFile.filename}" >ExampleFile.txt</th>
+                            <th scope="row" th:text="${file.filename}" >ExampleFile.txt</th>
                         </tr>
                         </tbody>
                     </table>

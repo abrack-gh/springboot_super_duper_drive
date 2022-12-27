@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,13 +23,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+
+@Controller
+@RequestMapping("/files")
 public class FileController {
 
     private FileService fileService;
+
+    public FileController(FileService fileService){
+        this.fileService = fileService;
+    }
+
     private UserMapper userMapper;
     private NoteService noteService;
     private CredentialService credentialService;
+
+
 
     public FileController(FileService fileService, UserMapper userMapper, NoteService noteService, CredentialService credentialService) {
         this.fileService = fileService;
@@ -40,7 +54,7 @@ public class FileController {
     @PostMapping("/file")
     public String uploadFile(Model model, @RequestParam("fileUpload")MultipartFile file, Authentication authentication,
                              @ModelAttribute("note")NoteForm noteForm, @ModelAttribute("credential") CredentialForm credentialForm){
-        System.out.println("postFile:" + file);
+        System.out.println("postFile" + file);
         String username = authentication.getName();
         int userId = userMapper.getUser(username).getUserId();
         if(file.isEmpty()){
@@ -70,7 +84,8 @@ public class FileController {
 
     }
 
-    @RequestMapping(value = {"/file/{id}"}, method = RequestMethod.GET)
+
+    @RequestMapping(value = {"/files/{id}"}, method = RequestMethod.GET)
     public ResponseEntity<byte[]> viewFile(@PathVariable(name = "id") String id,
                                            HttpServletResponse response, HttpServletRequest request) {
         File file = fileService.getFileById(Integer.parseInt(id));
@@ -94,3 +109,4 @@ public class FileController {
         return "redirect:/home";
     }
 }
+
