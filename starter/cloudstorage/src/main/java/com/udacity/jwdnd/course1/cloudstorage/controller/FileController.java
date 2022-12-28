@@ -9,6 +9,7 @@ import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,7 +24,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,20 +38,21 @@ import java.nio.file.Paths;
 @RequestMapping("/files")
 public class FileController {
 
+    @Autowired
     private FileService fileService;
 
 
-    public FileController(){
+    public FileController() {
 
     }
-    public FileController(FileService fileService){
+
+    public FileController(FileService fileService) {
         this.fileService = fileService;
     }
 
     private UserMapper userMapper;
     private NoteService noteService;
     private CredentialService credentialService;
-
 
 
     public FileController(FileService fileService, UserMapper userMapper, NoteService noteService, CredentialService credentialService) {
@@ -58,14 +62,77 @@ public class FileController {
         this.credentialService = credentialService;
     }
 
-    @PostMapping("/file")
+    @PostMapping("/upload")
+    public String uploadFile(
+            @RequestParam("fileUpload") MultipartFile fileUpload,
+            Authentication authentication
+    ) {
+        String username = (String) authentication.getPrincipal();
+
+        if (fileUpload.isEmpty()) {
+            return "redirect:/result?isSuccess=" + false + "&errorType=" + 1;
+        }
+
+        String fileName = fileUpload.getOriginalFilename();
+
+        if (!this.fileService.isFileNameAvailableForUser(username, fileName)) {
+            return "redirect:/result?isSuccess=" + false + "&errorType=" + 1;
+        }
+        try {
+            this.fileService.saveFile(fileUpload, username);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/result?isSuccess=" + true;
+    }
+
+    @GetMapping("/delete")
+    public String deleteFile(
+            @RequestParam(required = false, name = "fileId") Integer fileId) {
+        boolean isSuccess = this.fileService.deleteFile(fileId);
+        return "redirect:/result?isSuccess=" + isSuccess;
+    }
+
+    @GetMapping("/download")
+    public ResponseEntity<InputStreamResource> downloadFile(
+            @RequestParam(required = false, name = "fileId") Integer fileId){
+
+        File file = this.fileService.getFileById(fileId);
+
+        String fileName = file.getFilename();
+        String contentType = file.getContenttype();
+
+        byte[] fileData = file.getFiledata();
+
+        InputStream inputStream = new ByteArrayInputStream(fileData);
+
+        InputStreamResource resource = new InputStreamResource(inputStream);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + fileName)
+                .contentType(MediaType.parseMediaType(contentType))
+                .body(resource);
+    }
+
+}
+
+
+
+
+
+
+
+
+/*
+    @PostMapping("/upload")
     public String uploadFile(Model model, @RequestParam("fileUpload")MultipartFile file, Authentication authentication,
                              @ModelAttribute("note")NoteForm noteForm, @ModelAttribute("credential") CredentialForm credentialForm){
         System.out.println("postFile" + file);
         String username = authentication.getName();
         int userId = userMapper.getUser(username).getUserId();
         if(file.isEmpty()){
-            model.addAttribute("errorMessage", "No file selected");
+            return "redirect:/result?isSuccess=" + false + "&errorType=" + 1;
         } else {
             File fileObj = new File();
             fileObj.setContenttype(file.getContentType());
@@ -116,4 +183,6 @@ public class FileController {
         return "redirect:/home";
     }
 }
+
+ */
 

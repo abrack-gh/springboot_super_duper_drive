@@ -44,7 +44,7 @@ public class HomeController {
     @GetMapping("/result")
     public String showResult(
             Authentication authentication,
-            @RequestParam(required = false, name = "isSuccess") Boolean isSuccess,
+            @RequestParam(required = false, name = "isSuccess") boolean isSuccess,
             @RequestParam(required = false, name = "errorType") Integer errorType,
             Model model
     ) {

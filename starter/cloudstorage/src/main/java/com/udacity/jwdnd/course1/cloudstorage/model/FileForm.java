@@ -9,11 +9,11 @@ public class FileForm {
     private int userid;
     private byte[] filedata;
 
-    public int getFileId() {
+    public int getfileId() {
         return fileId;
     }
 
-    public void setFileId(int fileId) {
+    public void setfileId(int fileId) {
         this.fileId = fileId;
     }
 

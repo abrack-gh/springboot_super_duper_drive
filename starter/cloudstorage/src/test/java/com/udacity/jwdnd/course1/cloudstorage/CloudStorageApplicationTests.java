@@ -142,7 +142,7 @@ class CloudStorageApplicationTests {
 		jse.executeScript("arguments[0].click()", notesTab);
 		WebElement notesTable = driver.findElement(By.id("userTable"));
 		List<WebElement> notesList = notesTable.findElements(By.tagName("th"));
-		Boolean created = false;
+		boolean created = false;
 		for (int i = 0; i < notesList.size(); i++) {
 			WebElement element = notesList.get(i);
 			if (element.getAttribute("innerHTML").equals(noteTitle)) {
@@ -214,7 +214,7 @@ class CloudStorageApplicationTests {
 		js_ex.executeScript("arguments[0].click()", credTab);
 		WebElement credsTable = driver.findElement(By.id("credentialTable"));
 		List<WebElement> credsList = credsTable.findElements(By.tagName("td"));
-		Boolean created = false;
+		boolean created = false;
 		for (int i=0; i < credsList.size(); i++) {
 			WebElement element = credsList.get(i);
 			if (element.getAttribute("innerHTML").equals(userName)) {
