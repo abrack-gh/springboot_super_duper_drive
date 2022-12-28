@@ -42,13 +42,13 @@ public class FileService {
         return true;
     }
 
-    public List<File> getUploadedFiles(Integer userid){
-        return fileMapper.getAllFiles(userid);
+    public List<File> getUploadedFiles(){
+        return fileMapper.getAllFiles();
     }
 
     public boolean deleteFile(int fileId) {
 
-        this.fileMapper.deleteFile(fileId);
+        this.fileMapper.delete(fileId);
 
         return true;
     }
@@ -59,10 +59,6 @@ public class FileService {
 
     public Object getFileListings(Integer userId) {
         return this.fileMapper.getFileById(userId);
-    }
-
-    public Object getUserFiles(int userId) {
-        return this.fileMapper.getAllFiles(userId);
     }
 
     public boolean isFileNameAvailableForUser(String username, String filename) {

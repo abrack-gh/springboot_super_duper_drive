@@ -34,7 +34,7 @@ public class HomeController {
         if(user != null) {
             int userId = user.getUserId();
             model.addAttribute("notes", noteService.getUserNote(userId));
-            model.addAttribute("files", fileService.getUserFiles(userId));
+            model.addAttribute("files", fileService.getUploadedFiles());
             model.addAttribute("credentials", credentialsService.getUserCredentials(userId));
             return "home";
         }
