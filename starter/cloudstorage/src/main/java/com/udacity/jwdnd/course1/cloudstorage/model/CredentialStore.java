@@ -1,5 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.model;
 
+import org.springframework.stereotype.Service;
+
 public class CredentialStore {
     private Integer credentialId;
     private Integer userId;
@@ -85,6 +87,3 @@ public class CredentialStore {
         this.decryptPassword = decryptPassword;
     }
 }
-
-
-

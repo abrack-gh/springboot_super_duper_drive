@@ -35,7 +35,7 @@ public class HomeController {
             int userId = user.getUserId();
             model.addAttribute("notes", noteService.getUserNote(userId));
             model.addAttribute("files", fileService.getUploadedFiles());
-            model.addAttribute("credentials", credentialsService.getUserCredentials(userId));
+            model.addAttribute("credentials", credentialsService.getCredentialsByUsername(username));
             return "home";
         }
         return "signup";

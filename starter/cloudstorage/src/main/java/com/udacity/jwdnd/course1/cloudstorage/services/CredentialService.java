@@ -1,8 +1,8 @@
 package com.udacity.jwdnd.course1.cloudstorage.services;
 
 import com.udacity.jwdnd.course1.cloudstorage.mapper.CredentialMapper;
-import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
+import com.udacity.jwdnd.course1.cloudstorage.model.CredentialStore;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
@@ -21,57 +21,63 @@ public class CredentialService {
         this.encryptionService = encryptionService;
     }
 
-    public List<Credential> getCredentials(int userid){
-        return credentialMapper.getCredentials(userid);
+    public List<CredentialStore> getCredentialsByUsername(String username) {
+
+        List<CredentialStore> userCredentialStoreList = (List<CredentialStore>) this.credentialMapper.getCredentialByCredentialByUsername(username);
+
+        return userCredentialStoreList.stream().map(credentialStore -> {
+            String encodedKey = credentialStore.getKey();
+            String encodedPassword = credentialStore.getPassword();
+
+            String decryptedPassword = encryptionService.decryptValue(encodedPassword, encodedKey);
+
+            credentialStore.setDecryptPassword(decryptedPassword);
+
+            return credentialStore;
+        }).collect(Collectors.toList());
+
     }
 
-    public void addCredentials(Credential credential, int userId){
+    public Boolean insertOrUpdateCredential(
+            CredentialStore credentialStore, String username) {
+
+        String password = credentialStore.getPassword();
+
         SecureRandom random = new SecureRandom();
         byte[] key = new byte[16];
         random.nextBytes(key);
         String encodedKey = Base64.getEncoder().encodeToString(key);
-        String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), encodedKey);
+        String encryptedPassword = encryptionService.encryptValue(password, encodedKey);
 
-        Credential newCredential = new Credential();
-        newCredential.setUrl(credential.getUrl());
-        newCredential.setUserName(credential.getUserName());
-        newCredential.setKey(encodedKey);
-        newCredential.setPassword(encryptedPassword);
-        newCredential.setUserid(userId);
+        Integer credentialId = credentialStore.getCredentialId();
 
+        if (credentialId == null) {
 
-        credentialMapper.insertCredentials(newCredential);
+            this.credentialMapper.insert(
+                    credentialStore.getUrl(),
+                    credentialStore.getUsername(),
+                    encodedKey,
+                    encryptedPassword,
+                    Integer.valueOf(username));
+        } else {
+
+            this.credentialMapper.update(
+                    credentialStore.getUrl(),
+                    credentialStore.getUsername(),
+                    encodedKey,
+                    encryptedPassword,
+                    credentialId);
+        }
+
+        return true;
     }
 
-    public int deleteCredentials(int credentialid){
-        return credentialMapper.deleteCredentials(credentialid);
-    }
+        public Boolean deleteCredentials (Integer credentialId){
+            return credentialMapper.delete(credentialId);
+        }
 
-    public void editCredentials(Credential credential){
-        Credential storedCredential = credentialMapper.getCredentialById(credential.getCredentialid());
-
-        credential.setKey(storedCredential.getKey());
-        String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), credential.getKey());
-        credential.setPassword(encryptedPassword);
-        credentialMapper.updateCredentials(credential);
-    }
-
-    public Object getUserCredentials(int userId) {
-        List<Credential> credentialList = this.credentialMapper.getCredentials(userId);
-        return credentialList.stream().map(credential -> wrapCredential(credential)).collect(Collectors.toList());
-    }
-
-    private Credential wrapCredential(Credential c) {
-        Credential mapped =  new Credential(c.getCredentialid(), c.getUrl(), c.getUserName(),
-                null, c.getPassword(), c.getUserid());
-        mapped.setUnencodedPassword(getUnencodedPassword(c));
-        return mapped;
-    }
-
-    private String getUnencodedPassword(Credential c) {
-        return this.encryptionService.decryptValue(c.getPassword(), wrapCredential(c).getKey());
-    }
 }
+
 
 
 
