@@ -5,6 +5,8 @@ import com.udacity.jwdnd.course1.cloudstorage.model.*;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.EncryptionService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
+import org.mybatis.logging.Logger;
+import org.mybatis.logging.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +16,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.security.SecureRandom;
 import java.util.Base64;
 
-@RequestMapping("/home/credentials")
+@RequestMapping("/credentials")
 @Controller
 public class CredentialController {
+
+    private Logger logger = LoggerFactory.getLogger(CredentialController.class);
     private CredentialService credentialService;
     private UserMapper userMapper;
 
@@ -25,7 +29,7 @@ public class CredentialController {
         this.userMapper = userMapper;
     }
 
-    @PostMapping
+    @PostMapping("/credential")
     public String handleAddUpdateCredentials(Authentication authentication, Credential credential){
         String loggedInUserName = (String) authentication.getPrincipal();
         User user = userMapper.getUser(loggedInUserName);
