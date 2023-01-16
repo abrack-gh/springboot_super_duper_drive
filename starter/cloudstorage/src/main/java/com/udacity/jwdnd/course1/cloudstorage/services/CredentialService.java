@@ -21,21 +21,15 @@ public class CredentialService {
         this.encryptionService = encryptionService;
     }
 
-    public List<CredentialStore> getCredentialsByUsername(String username) {
+    public List<Credential> getAllCredentials(int credentialId) {
 
-        List<CredentialStore> userCredentialStoreList = (List<CredentialStore>) this.credentialMapper.getCredentialByCredentialByUsername(username);
+        List<Credential> credentialList = credentialMapper.getAllCredentials(credentialId);
 
-        return userCredentialStoreList.stream().map(credentialStore -> {
-            String encodedKey = credentialStore.getKey();
-            String encodedPassword = credentialStore.getPassword();
+        for(Credential credential : credentialList){
+            credential.setUnencodedPassword(encryptionService.decryptValue(credential.getPassword(), credential.getKey()));
+        }
 
-            String decryptedPassword = encryptionService.decryptValue(encodedPassword, encodedKey);
-
-            credentialStore.setDecryptPassword(decryptedPassword);
-
-            return credentialStore;
-        }).collect(Collectors.toList());
-
+        return credentialList;
     }
 
     public Boolean insertOrUpdateCredential(

@@ -20,14 +20,17 @@ public class HomeController {
     private CredentialService credentialsService;
     private UserMapper userMapper;
 
+    private UserService userService;
+
     public HomeController(NoteService noteService, FileService fileService, CredentialService credentialsService, UserMapper userMapper) {
         this.noteService = noteService;
         this.fileService = fileService;
         this.credentialsService = credentialsService;
         this.userMapper = userMapper;
+        this.userService = userService;
     }
 
-    @GetMapping
+   /* @GetMapping
     public String home(@ModelAttribute("note") NoteForm note, @ModelAttribute("credential") CredentialForm credentialForm, Model model, Authentication authentication) {
         String username = authentication.getName();
         User user = userMapper.getUser(username);
@@ -35,7 +38,23 @@ public class HomeController {
             int userId = user.getUserId();
             model.addAttribute("notes", noteService.getUserNote(userId));
             model.addAttribute("files", fileService.getUploadedFiles());
-            model.addAttribute("credentials", credentialsService.getCredentialsByUsername(username));
+            model.addAttribute("credentials", credentialsService.getAllCredentials(userId));
+            return "home";
+        }
+        return "signup";
+    }
+
+    */
+
+   @GetMapping
+    public String home(Model model, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userMapper.getUser(username);
+        if(user != null) {
+            int userId = user.getUserId();
+            model.addAttribute("notes", noteService.getUserNote(userId));
+            model.addAttribute("files", fileService.getUploadedFiles());
+            model.addAttribute("credentials", credentialsService.getAllCredentials(userId));
             return "home";
         }
         return "signup";

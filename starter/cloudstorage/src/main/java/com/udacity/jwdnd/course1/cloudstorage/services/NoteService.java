@@ -16,10 +16,15 @@ public class NoteService {
         this.userMapper = userMapper;
     }
 
-    public void addNote(String title, String description, String username){
-        Integer userId = userMapper.getUser(username).getUserid();
-        Notes note = new Notes(0, title, description, userId);
-        notesMapper.insert(note);
+    public int addNote(Notes notes){
+        int id;
+        if(notes.getNodeid() == null){
+            id = notesMapper.insert(notes);
+        } else {
+            id = notesMapper.updateNote(notes);
+        }
+
+        return id;
     }
     public Notes[] getNoteListings(Integer userid){
         return notesMapper.getNotesForUser(userid);
@@ -30,10 +35,6 @@ public class NoteService {
 
     public void deleteNote(Integer noteId) {
         notesMapper.deleteNote(noteId);
-    }
-
-    public void updateNote(Integer noteId, String title, String description) {
-        notesMapper.updateNote(noteId, title, description);
     }
 
     public Object getUserNote(int userId) {
