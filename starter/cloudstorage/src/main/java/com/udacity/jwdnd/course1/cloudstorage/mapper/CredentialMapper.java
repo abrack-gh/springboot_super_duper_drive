@@ -8,27 +8,27 @@ import java.util.List;
 @Mapper
 public interface CredentialMapper {
 
-    @Insert("INSERT INTO CREDENTIALS(url, username, key, password, userid) VALUES (" +
-            "#{url}, #{username}, #{key}, #{password}, #{userid})")
-    @Options(useGeneratedKeys = true, keyProperty = "credentialid")
-    int insert(String url, String username, String key, String password, Integer credentialid);
+    @Insert("INSERT INTO CREDENTIALS(url, username, key, password, userId) VALUES (" +
+            "#{url}, #{username}, #{key}, #{password}, #{userId})")
+    @Options(useGeneratedKeys = true, keyProperty = "credentialId")
+    int insert(String url, String username, String key, String password, Integer credentialId);
 
-    @Select("SELECT * FROM CREDENTIALS WHERE credentialid = #{credentialid}")
-    Credential getCredentialByCredentialId(Integer credentialid);
+    @Select("SELECT * FROM CREDENTIALS WHERE credentialId = #{credentialId}")
+    Credential getCredentialBycredentialId(Integer credentialId);
 
     @Select("SELECT * FROM CREDENTIALS WHERE username = #{username}")
     Credential getCredentialByCredentialByUsername(String username);
 
-    @Select("SELECT * FROM CREDENTIALS WHERE username = #{userid}")
-    List<Credential> getAllCredentials(int userid);
+    @Select("SELECT * FROM CREDENTIALS WHERE username = #{userId}")
+    List<Credential> getAllCredentials(int userId);
 
-    @Delete("DELETE FROM CREDENTIALS WHERE credentialid = #{credentialid}")
-    Boolean delete(Integer credentialid);
+    @Delete("DELETE FROM CREDENTIALS WHERE credentialId = #{credentialId}")
+    Boolean delete(Integer credentialId);
 
     @Update("UPDATE credentials " +
             "SET url = #{url}, username = #{username}, key = #{key}, " +
             "password = #{password} " +
-            "WHERE credentialid = #{credentialid}")
+            "WHERE credentialId = #{credentialId}")
     int update(
-            String url, String username, String key, String password, Integer credentialid);
+            String url, String username, String key, String password, Integer credentialId);
 }

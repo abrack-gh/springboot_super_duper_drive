@@ -18,8 +18,8 @@ import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CloudStorageApplicationTests {
-	private static String firstName = "checkFirstName";
-	private static String lastName = "checkLastName";
+	private static String firstName = "checkfirstName";
+	private static String lastName = "checklastName";
 	private static String userName = "user";
 	private static String password = "password";
 	private static String noteTitle = "New Note Title";
@@ -79,10 +79,10 @@ class CloudStorageApplicationTests {
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		// signup
 		driver.get("http://localhost:" + this.port + "/signup");
-		WebElement inputFirstName = driver.findElement(By.id("inputFirstName"));
-		inputFirstName.sendKeys(firstName);
-		WebElement inputLastName = driver.findElement(By.id("inputLastName"));
-		inputLastName.sendKeys(lastName);
+		WebElement inputfirstName = driver.findElement(By.id("inputfirstName"));
+		inputfirstName.sendKeys(firstName);
+		WebElement inputlastName = driver.findElement(By.id("inputlastName"));
+		inputlastName.sendKeys(lastName);
 		WebElement inputUsername = driver.findElement(By.id("inputUsername"));
 		inputUsername.sendKeys(userName);
 		WebElement inputPassword = driver.findElement(By.id("inputPassword"));
@@ -131,8 +131,8 @@ class CloudStorageApplicationTests {
 		WebElement newNote = driver.findElement(By.id("newnote"));
 		wait.until(ExpectedConditions.elementToBeClickable(newNote)).click();
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("note-title"))).sendKeys(noteTitle);
-		WebElement notedescription = driver.findElement(By.id("note-description"));
-		notedescription.sendKeys(noteDescription);
+		WebElement noteDescription = driver.findElement(By.id("note-description"));
+		noteDescription.sendKeys(noteDescription);
 		WebElement savechanges = driver.findElement(By.id("save-changes"));
 		savechanges.click();
 		Assertions.assertEquals("Result", driver.getTitle());

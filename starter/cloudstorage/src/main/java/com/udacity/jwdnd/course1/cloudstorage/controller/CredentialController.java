@@ -23,7 +23,7 @@ public class CredentialController {
         this.userMapper = userMapper;
     }
 
-    @PostMapping("/credential")
+    @PostMapping("/submit")
     public String submitCredentials(
             @ModelAttribute("CredentialStore") CredentialStore credentialStore,
             Authentication authentication,

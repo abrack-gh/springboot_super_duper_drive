@@ -26,8 +26,8 @@ public class NoteService {
 
         return id;
     }
-    public Notes[] getNoteListings(Integer userid){
-        return notesMapper.getNotesForUser(userid);
+    public Notes[] getNoteListings(Integer userId){
+        return notesMapper.getNotesForUser(userId);
     }
     public Notes getNote(Integer noteId) {
         return notesMapper.getNote(noteId);

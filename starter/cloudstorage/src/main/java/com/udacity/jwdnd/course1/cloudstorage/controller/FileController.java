@@ -73,9 +73,9 @@ public class FileController {
             return "redirect:/result?isSuccess=" + false + "&errorType=" + 1;
         }
 
-        String fileName = fileUpload.getOriginalFilename();
+        String fileName = fileUpload.getOriginalfileName();
 
-        if (!this.fileService.isFileNameAvailableForUser(username, fileName)) {
+        if (!this.fileService.isfileNameAvailableForUser(username, fileName)) {
             return "redirect:/result?isSuccess=" + false + "&errorType=" + 1;
         }
         try {
@@ -100,17 +100,17 @@ public class FileController {
 
         File file = this.fileService.getFileById(fileId);
 
-        String fileName = file.getFilename();
-        String contentType = file.getContenttype();
+        String fileName = file.getfileName();
+        String contentType = file.getcontentType();
 
-        byte[] fileData = file.getFiledata();
+        byte[] fileData = file.getfileData();
 
         InputStream inputStream = new ByteArrayInputStream(fileData);
 
         InputStreamResource resource = new InputStreamResource(inputStream);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + fileName)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;fileName=" + fileName)
                 .contentType(MediaType.parseMediaType(contentType))
                 .body(resource);
     }
@@ -130,18 +130,18 @@ public class FileController {
                              @ModelAttribute("note")NoteForm noteForm, @ModelAttribute("credential") CredentialForm credentialForm){
         System.out.println("postFile" + file);
         String username = authentication.getName();
-        int userId = userMapper.getUser(username).getUserId();
+        int userId = userMapper.getUser(username).getuserId();
         if(file.isEmpty()){
             return "redirect:/result?isSuccess=" + false + "&errorType=" + 1;
         } else {
             File fileObj = new File();
-            fileObj.setContenttype(file.getContentType());
-            fileObj.setFilename(file.getName());
-            fileObj.setUserid(userId);
-            fileObj.setFilesize(file.getSize() + "");
+            fileObj.setcontentType(file.getcontentType());
+            fileObj.setfileName(file.getName());
+            fileObj.setuserId(userId);
+            fileObj.setfileSize(file.getSize() + "");
 
             try {
-                fileObj.setFiledata(fileObj.getFilesize().getBytes());
+                fileObj.setfileData(fileObj.getfileSize().getBytes());
                 fileService.createFile(fileService.getFileById(userId));
                 model.addAttribute("success", "File uploaded!");
             } catch (FileAlreadyExistsException e) {
@@ -163,11 +163,11 @@ public class FileController {
     public ResponseEntity<byte[]> viewFile(@PathVariable(name = "id") String id,
                                            HttpServletResponse response, HttpServletRequest request) {
         File file = fileService.getFileById(Integer.parseInt(id));
-        byte[] fileContents = file.getFiledata();
+        byte[] fileContents = file.getfileData();
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.parseMediaType(file.getContenttype()));
-        String fileName = file.getFilename();
+        httpHeaders.setcontentType(MediaType.parseMediaType(file.getcontentType()));
+        String fileName = file.getfileName();
         httpHeaders.setContentDispositionFormData(fileName, fileName);
         httpHeaders.setCacheControl("must-revalidate, post-check=0, pre-check=0");
         ResponseEntity<byte[]> serverResponse = new ResponseEntity<byte[]>(fileContents, httpHeaders, HttpStatus.OK);

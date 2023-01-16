@@ -19,7 +19,7 @@ public class User {
 
     }
 
-    public User(String firstname) {
+    public User(String firstName) {
         this.firstName = firstName;
 
     }
@@ -29,7 +29,7 @@ public class User {
 
     }
 
-    public Integer getUserid() {
+    public Integer getuserId() {
         return userId;
     }
 
@@ -45,15 +45,15 @@ public class User {
         return password;
     }
 
-    public String getFirstname() {
+    public String getfirstName() {
         return firstName;
     }
 
-    public String getLastname() {
+    public String getlastName() {
         return lastName;
     }
 
-    public void setUserid(Integer userid) {
+    public void setuserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -69,15 +69,11 @@ public class User {
         this.password = password;
     }
 
-    public void setFirstName(String firstName) {
+    public void setfirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public void setLastName(String lastName) {
+    public void setlastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public int getUserId() {
-        return userId;
     }
 }

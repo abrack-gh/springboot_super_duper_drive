@@ -31,19 +31,19 @@ public class CredentialStore {
         this.password = password;
     }
 
-    public Integer getCredentialId() {
+    public Integer getcredentialId() {
         return credentialId;
     }
 
-    public void setCredentialId(Integer credentialId) {
+    public void setcredentialId(Integer credentialId) {
         this.credentialId = credentialId;
     }
 
-    public Integer getUserId() {
+    public Integer getuserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setuserId(Integer userId) {
         this.userId = userId;
     }
 

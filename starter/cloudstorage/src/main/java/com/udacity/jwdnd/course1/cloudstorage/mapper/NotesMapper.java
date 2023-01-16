@@ -6,29 +6,29 @@ import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface NotesMapper {
-    @Select("SELECT *  FROM NOTES WHERE userid = #{userid}")
+    @Select("SELECT *  FROM NOTES WHERE userId = #{userId}")
     Notes[] getNotesForUser(Integer userId);
 
     @Select("SELECT * FROM NOTES")
     Notes[] getNoteListings();
 
-    @Select("SELECT *  FROM NOTES WHERE noteid = #{noteId}")
+    @Select("SELECT *  FROM NOTES WHERE noteId = #{noteId}")
     Notes getNotes(Integer notesId);
-    @Select("SELECT * FROM NOTES WHERE noteid = #{noteId}")
+    @Select("SELECT * FROM NOTES WHERE noteId = #{noteId}")
     Notes getNote(Integer noteId);
 
 
-    @Insert("INSERT INTO NOTES (notetitle, notedescription, userid) VALUES (#{notetitle}, #{notedescription}, #{userid})")
-    @Options(useGeneratedKeys = true, keyProperty = "noteid")
+    @Insert("INSERT INTO NOTES (noteTitle = #{noteTitle}, noteDescription =  #{noteDescription}, userId = #{userId}")
+    @Options(useGeneratedKeys = true, keyProperty = "noteId")
     int insert(Notes notes);
 
-    @Delete("DELETE FROM NOTES WHERE noteid = #{noteid}")
+    @Delete("DELETE FROM NOTES WHERE noteId = #{noteId}")
     void deleteNote(Integer noteId);
 
 
     @Update("UPDATE NOTES " +
-            " SET notetitle = #{noteTitle}, notedescription = #{noteDescription} " +
-            " WHERE noteid = #{noteId}")
+            " SET noteTitle = #{noteTitle}, noteDescription = #{noteDescription} " +
+            " WHERE noteId = #{noteId}")
     int updateNote(Notes notes);
 
 }

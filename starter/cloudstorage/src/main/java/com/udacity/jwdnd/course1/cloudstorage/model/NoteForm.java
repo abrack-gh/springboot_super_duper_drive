@@ -6,14 +6,14 @@ public class NoteForm {
     private String title;
     private String description;
 
-    public Integer noteid;
+    public Integer noteId;
 
-    public Integer getNoteid() {
-        return noteid;
+    public Integer getnoteId() {
+        return noteId;
     }
 
-    public void setNoteid(Integer noteid) {
-        this.noteid = noteid;
+    public void setnoteId(Integer noteId) {
+        this.noteId = noteId;
     }
 
     public String getTitle() {

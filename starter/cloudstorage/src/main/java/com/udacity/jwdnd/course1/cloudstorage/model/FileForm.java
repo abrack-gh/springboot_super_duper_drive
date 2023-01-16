@@ -3,11 +3,11 @@ package com.udacity.jwdnd.course1.cloudstorage.model;
 
 public class FileForm {
     private int fileId;
-    private String filename;
-    private String contenttype;
-    private String filesize;
-    private int userid;
-    private byte[] filedata;
+    private String fileName;
+    private String contentType;
+    private String fileSize;
+    private int userId;
+    private byte[] fileData;
 
     public int getfileId() {
         return fileId;
@@ -17,43 +17,43 @@ public class FileForm {
         this.fileId = fileId;
     }
 
-    public String getFilename() {
-        return filename;
+    public String getfileName() {
+        return fileName;
     }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public void setfileName(String fileName) {
+        this.fileName = fileName;
     }
 
-    public String getContenttype() {
-        return contenttype;
+    public String getcontentType() {
+        return contentType;
     }
 
-    public void setContenttype(String contenttype) {
-        this.contenttype = contenttype;
+    public void setcontentType(String contentType) {
+        this.contentType = contentType;
     }
 
-    public String getFilesize() {
-        return filesize;
+    public String getfileSize() {
+        return fileSize;
     }
 
-    public void setFilesize(String filesize) {
-        this.filesize = filesize;
+    public void setfileSize(String fileSize) {
+        this.fileSize = fileSize;
     }
 
-    public int getUserid() {
-        return userid;
+    public int getuserId() {
+        return userId;
     }
 
-    public void setUserid(int userid) {
-        this.userid = userid;
+    public void setuserId(int userId) {
+        this.userId = userId;
     }
 
-    public byte[] getFiledata() {
-        return filedata;
+    public byte[] getfileData() {
+        return fileData;
     }
 
-    public void setFiledata(byte[] filedata) {
-        this.filedata = filedata;
+    public void setfileData(byte[] fileData) {
+        this.fileData = fileData;
     }
 }

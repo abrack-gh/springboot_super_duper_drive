@@ -2,20 +2,20 @@ package com.udacity.jwdnd.course1.cloudstorage.model;
 
 public class Notes {
     private Integer nodeid;
-    private String notetitle;
-    private String notedescription;
-    private int userid;
+    private String noteTitle;
+    private String noteDescription;
+    private int userId;
 
-    public Notes(Integer nodeid, String notetitle, String notedescription, int userid) {
+    public Notes(Integer nodeid, String noteTitle, String noteDescription, int userId) {
         this.nodeid = nodeid;
-        this.notetitle = notetitle;
-        this.notedescription = notedescription;
-        this.userid = userid;
+        this.noteTitle = noteTitle;
+        this.noteDescription = noteDescription;
+        this.userId = userId;
     }
 
-    public Notes(String notetitle, String notedescription) {
-        this.notetitle = notetitle;
-        this.notedescription = notedescription;
+    public Notes(String noteTitle, String noteDescription) {
+        this.noteTitle = noteTitle;
+        this.noteDescription = noteDescription;
     }
 
     public Notes() {
@@ -30,27 +30,27 @@ public class Notes {
         this.nodeid = nodeid;
     }
 
-    public String getNotetitle() {
-        return notetitle;
+    public String getnoteTitle() {
+        return noteTitle;
     }
 
-    public void setNotetitle(String notetitle) {
-        this.notetitle = notetitle;
+    public void setnoteTitle(String noteTitle) {
+        this.noteTitle = noteTitle;
     }
 
-    public String getNotedescription() {
-        return notedescription;
+    public String getnoteDescription() {
+        return noteDescription;
     }
 
-    public void setNotedescription(String notedescription) {
-        this.notedescription = notedescription;
+    public void setnoteDescription(String noteDescription) {
+        this.noteDescription = noteDescription;
     }
 
-    public int getUserid() {
-        return userid;
+    public int getuserId() {
+        return userId;
     }
 
-    public void setUserid(int userid) {
-        this.userid = userid;
+    public void setuserId(int userId) {
+        this.userId = userId;
     }
 }

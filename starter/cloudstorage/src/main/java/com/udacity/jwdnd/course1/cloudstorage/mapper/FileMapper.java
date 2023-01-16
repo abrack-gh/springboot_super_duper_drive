@@ -14,29 +14,29 @@ public interface FileMapper {
     File getFileById(Integer fileId);
 
     @Insert("INSERT INTO FILES(" +
-            "filename, " +
-            "fileid," +
-            "contenttype, " +
-            "filesize, " +
-            "filedata, " +
-            "userid) VALUES (" +
-            "#{filename}, " +
+            "fileName, " +
+            "fileId," +
+            "contentType, " +
+            "fileSize, " +
+            "fileData, " +
+            "userId) VALUES (" +
+            "#{fileName}, " +
             "#{fileId}, " +
-            "#{contenttype}, " +
-            "#{filesize}, " +
-            "#{filedata}, " +
-            "#{userid})")
+            "#{contentType}, " +
+            "#{fileSize}, " +
+            "#{fileData}, " +
+            "#{userId})")
     @Options(useGeneratedKeys = true, keyProperty = "fileId")
     int insert(File file);
 
     @Select("SELECT * FROM FILES")
     List<File> getAllFiles();
 
-    @Delete("DELETE FROM FILES WHERE fileid = #{fileid}")
-    void delete(Integer fileid);
+    @Delete("DELETE FROM FILES WHERE fileId = #{fileId}")
+    void delete(Integer fileId);
 
-    @Select("SELECT * FROM FILES WHERE userid = #{userid} AND filename = #{filename}")
-    List<File> getFileByUsernameAndFileName(Map<String, Object> paraMap);
+    @Select("SELECT * FROM FILES WHERE userId = #{userId} AND fileName = #{fileName}")
+    List<File> getFileByUsernameAndfileName(Map<String, Object> paraMap);
 
 }
 

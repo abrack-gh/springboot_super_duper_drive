@@ -25,10 +25,10 @@
 
     <div th:if="${file}">
         <h1 class="display-5" >File details</h1>
-        <p>File name: <span th:text="${file.getFileName}">Example Error Message</span></p>
-        <p>File type: <span th:text="${file.getContentType}">Type not available</span></p>
-        <p>File size: <span th:text="${file.getFileSize}">Size not available</span></p>
-        <p><a th:href="@{|/file/download/${file.getFileName}|}">Download</a></p>
+        <p>File name: <span th:text="${file.getfileName}">Example Error Message</span></p>
+        <p>File type: <span th:text="${file.getcontentType}">Type not available</span></p>
+        <p>File size: <span th:text="${file.getfileSize}">Size not available</span></p>
+        <p><a th:href="@{|/file/download/${file.getfileName}|}">Download</a></p>
 
     </div>
 </div>

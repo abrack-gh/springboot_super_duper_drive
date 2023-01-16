@@ -35,7 +35,7 @@ public class HomeController {
         String username = authentication.getName();
         User user = userMapper.getUser(username);
         if(user != null) {
-            int userId = user.getUserId();
+            int userId = user.getuserId();
             model.addAttribute("notes", noteService.getUserNote(userId));
             model.addAttribute("files", fileService.getUploadedFiles());
             model.addAttribute("credentials", credentialsService.getAllCredentials(userId));
@@ -51,7 +51,7 @@ public class HomeController {
         String username = authentication.getName();
         User user = userMapper.getUser(username);
         if(user != null) {
-            int userId = user.getUserId();
+            int userId = user.getuserId();
             model.addAttribute("notes", noteService.getUserNote(userId));
             model.addAttribute("files", fileService.getUploadedFiles());
             model.addAttribute("credentials", credentialsService.getAllCredentials(userId));

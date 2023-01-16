@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/note")
+@RequestMapping("/notes")
 public class NotesController {
     private NoteService noteService;
     private UserService userService;
@@ -25,7 +25,7 @@ public class NotesController {
 
     @PostMapping("/save")
     public String addNote(Authentication authentication, Notes notes, Model model){
-        notes.setUserid(notes.getUserid());
+        notes.setuserId(notes.getuserId());
 
         Boolean isSuccess = noteService.addNote(notes) > 0;
         return "redirect:/result?isSuccess=" + isSuccess;

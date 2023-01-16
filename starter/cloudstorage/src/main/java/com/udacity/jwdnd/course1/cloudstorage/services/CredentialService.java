@@ -43,7 +43,7 @@ public class CredentialService {
         String encodedKey = Base64.getEncoder().encodeToString(key);
         String encryptedPassword = encryptionService.encryptValue(password, encodedKey);
 
-        Integer credentialId = credentialStore.getCredentialId();
+        Integer credentialId = credentialStore.getcredentialId();
 
         if (credentialId == null) {
 
