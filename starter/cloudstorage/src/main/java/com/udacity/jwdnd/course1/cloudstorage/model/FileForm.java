@@ -1,19 +1,32 @@
 package com.udacity.jwdnd.course1.cloudstorage.model;
 
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class FileForm {
-    private int fileId;
+    private Integer fileId;
     private String fileName;
     private String contentType;
     private String fileSize;
-    private int userId;
-    private byte[] fileData;
+    private Integer userId;
+    private Byte[] fileData;
+    private MultipartFile file;
 
-    public int getfileId() {
+    public FileForm(Integer fileId, String fileName, String contentType, String fileSize, Integer userId, Byte[] fileData, MultipartFile file) {
+        this.fileId = fileId;
+        this.fileName = fileName;
+        this.contentType = contentType;
+        this.fileSize = fileSize;
+        this.userId = userId;
+        this.fileData = fileData;
+        this.file = file;
+    }
+
+    public Integer getfileId() {
         return fileId;
     }
 
-    public void setfileId(int fileId) {
+    public void setfileId(Integer fileId) {
         this.fileId = fileId;
     }
 
@@ -41,7 +54,7 @@ public class FileForm {
         this.fileSize = fileSize;
     }
 
-    public int getuserId() {
+    public Integer getuserId() {
         return userId;
     }
 
@@ -49,11 +62,19 @@ public class FileForm {
         this.userId = userId;
     }
 
-    public byte[] getfileData() {
+    public Byte[] getfileData() {
         return fileData;
     }
 
-    public void setfileData(byte[] fileData) {
+    public void setfileData(Byte[] fileData) {
         this.fileData = fileData;
+    }
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 }

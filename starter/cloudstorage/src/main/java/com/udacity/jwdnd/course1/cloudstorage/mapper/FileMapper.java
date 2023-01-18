@@ -32,6 +32,9 @@ public interface FileMapper {
     @Select("SELECT * FROM FILES")
     List<File> getAllFiles();
 
+    @Select("SELECT * FROM FILES WHERE filename = #{fileName}")
+    File getFile(String fileName);
+
     @Delete("DELETE FROM FILES WHERE fileId = #{fileId}")
     void delete(Integer fileId);
 

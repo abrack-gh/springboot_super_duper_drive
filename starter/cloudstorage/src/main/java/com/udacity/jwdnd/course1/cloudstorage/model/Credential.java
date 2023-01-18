@@ -2,42 +2,27 @@ package com.udacity.jwdnd.course1.cloudstorage.model;
 public class Credential {
     private Integer credentialId;
     private String url;
-    private String userName;
+    private String username;
     private String key;
     private String password;
     private Integer userId;
     private String unencodedPassword;
 
-    public Credential(Integer credentialId, String url, String userName, String key, String password, Integer userId) {
+    public Credential(Integer credentialId, String url, String username, String key, String password, Integer userId) {
         this.credentialId = credentialId;
         this.url = url;
-        this.userName = userName;
+        this.username = username;
         this.key = key;
         this.password = password;
         this.userId = userId;
+        this.unencodedPassword = unencodedPassword;
     }
 
-
-
-    public Credential(String url, String userName, String password) {
-        this.url = url;
-        this.userName = userName;
-        this.password = password;
-    }
-
-    public Credential(String userName) {
-        this.userName = userName;
-    }
-
-    public Credential() {
-
-    }
-
-    public Integer getcredentialId() {
+    public Integer getCredentialId() {
         return credentialId;
     }
 
-    public void setcredentialId(Integer credentialId) {
+    public void setCredentialId(Integer credentialId) {
         this.credentialId = credentialId;
     }
 
@@ -49,12 +34,12 @@ public class Credential {
         this.url = url;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getKey() {
@@ -73,12 +58,16 @@ public class Credential {
         this.password = password;
     }
 
-    public Integer getuserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setuserId(Integer userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getUnencodedPassword() {
+        return unencodedPassword;
     }
 
     public void setUnencodedPassword(String unencodedPassword) {

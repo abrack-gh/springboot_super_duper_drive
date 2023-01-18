@@ -1,6 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.services;
 
 import com.udacity.jwdnd.course1.cloudstorage.mapper.CredentialMapper;
+import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.model.CredentialStore;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,23 @@ public class CredentialService {
 
     private CredentialMapper credentialMapper;
     private EncryptionService encryptionService;
+    private UserMapper userMapper;
 
-    public CredentialService(CredentialMapper credentialMapper, EncryptionService encryptionService) {
+
+    public CredentialService(CredentialMapper credentialMapper, EncryptionService encryptionService, UserMapper userMapper) {
         this.credentialMapper = credentialMapper;
         this.encryptionService = encryptionService;
+        this.userMapper = userMapper;
+    }
+
+    public void addCredential(String url, String userName, String credentialUserName, String key, String password) {
+        Integer userId = userMapper.getUser(userName).getuserId();
+        Credential credential = new Credential(0, url, credentialUserName, key, password, userId);
+        credentialMapper.insert(credential);
+    }
+
+    public Credential getCredential(int credentialId){
+        return credentialMapper.getCredentialBycredentialId(credentialId);
     }
 
     public List<Credential> getAllCredentials(int credentialId) {
@@ -45,16 +59,7 @@ public class CredentialService {
 
         Integer credentialId = credentialStore.getcredentialId();
 
-        if (credentialId == null) {
-
-            this.credentialMapper.insert(
-                    credentialStore.getUrl(),
-                    credentialStore.getUsername(),
-                    encodedKey,
-                    encryptedPassword,
-                    Integer.valueOf(username));
-        } else {
-
+        if (credentialId != null) {
             this.credentialMapper.update(
                     credentialStore.getUrl(),
                     credentialStore.getUsername(),

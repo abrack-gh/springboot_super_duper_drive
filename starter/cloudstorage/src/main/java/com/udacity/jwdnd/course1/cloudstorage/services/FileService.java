@@ -26,9 +26,9 @@ public class FileService {
         this.userMapper = userMapper;
     }
 
-    public boolean saveFile(MultipartFile file, String userName) throws IOException {
+    public boolean saveFile(MultipartFile file, String username) throws IOException {
 
-        User user = this.userMapper.getUser(userName);
+        User user = this.userMapper.getUser(username);
 
         Integer userId = user.getuserId();
 
@@ -46,7 +46,7 @@ public class FileService {
         return fileMapper.getAllFiles();
     }
 
-    public boolean deleteFile(int fileId) {
+    public boolean deleteFile(Integer fileId) {
 
         this.fileMapper.delete(fileId);
 
@@ -55,6 +55,10 @@ public class FileService {
 
     public File getFileById(Integer fileId){
         return fileMapper.getFileById(fileId);
+    }
+
+    public File getFile(String fileName){
+        return fileMapper.getFile(fileName);
     }
 
     public Object getFileListings(Integer userId) {

@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -47,14 +48,17 @@ public class HomeController {
     */
 
    @GetMapping
-    public String home(Model model, Authentication authentication) {
+    public String home(Authentication authentication, Model model, File file, Notes notes, Credential credential) {
         String username = authentication.getName();
         User user = userMapper.getUser(username);
         if(user != null) {
             int userId = user.getuserId();
-            model.addAttribute("notes", noteService.getUserNote(userId));
-            model.addAttribute("files", fileService.getUploadedFiles());
-            model.addAttribute("credentials", credentialsService.getAllCredentials(userId));
+            model.addAttribute("notes", notes);
+            List<Notes> notesList = List.of(noteService.getNoteListings(userId));
+            model.addAttribute("file", file);
+            List<File> filesList = fileService.getUploadedFiles();
+            model.addAttribute("credential", credential);
+            List<Credential> credentials = credentialsService.getAllCredentials(userId);
             return "home";
         }
         return "signup";

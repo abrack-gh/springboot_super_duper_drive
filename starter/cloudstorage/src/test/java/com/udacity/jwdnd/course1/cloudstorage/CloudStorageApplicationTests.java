@@ -20,7 +20,7 @@ import java.util.List;
 class CloudStorageApplicationTests {
 	private static String firstName = "checkfirstName";
 	private static String lastName = "checklastName";
-	private static String userName = "user";
+	private static String username = "user";
 	private static String password = "password";
 	private static String noteTitle = "New Note Title";
 	private static String noteDescription = "New Note Description";
@@ -84,7 +84,7 @@ class CloudStorageApplicationTests {
 		WebElement inputlastName = driver.findElement(By.id("inputlastName"));
 		inputlastName.sendKeys(lastName);
 		WebElement inputUsername = driver.findElement(By.id("inputUsername"));
-		inputUsername.sendKeys(userName);
+		inputUsername.sendKeys(username);
 		WebElement inputPassword = driver.findElement(By.id("inputPassword"));
 		inputPassword.sendKeys(password);
 		WebElement signUpButton = driver.findElement(By.id("signup"));
@@ -92,7 +92,7 @@ class CloudStorageApplicationTests {
 
 		driver.get("http://localhost:" + this.port + "/login");
 		inputUsername = driver.findElement(By.id("inputUsername"));
-		inputUsername.sendKeys(userName);
+		inputUsername.sendKeys(username);
 		inputPassword = driver.findElement(By.id("inputPassword"));
 		inputPassword.sendKeys(password);
 		WebElement loginButton = driver.findElement(By.id("login"));
@@ -118,7 +118,7 @@ class CloudStorageApplicationTests {
 		//login
 		driver.get("http://localhost:" + this.port + "/login");
 		WebElement inputUsername = driver.findElement(By.id("inputUsername"));
-		inputUsername.sendKeys(userName);
+		inputUsername.sendKeys(username);
 		WebElement inputPassword = driver.findElement(By.id("inputPassword"));
 		inputPassword.sendKeys(password);
 		WebElement loginButton = driver.findElement(By.id("login"));
@@ -132,7 +132,7 @@ class CloudStorageApplicationTests {
 		wait.until(ExpectedConditions.elementToBeClickable(newNote)).click();
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("note-title"))).sendKeys(noteTitle);
 		WebElement noteDescription = driver.findElement(By.id("note-description"));
-		noteDescription.sendKeys(noteDescription);
+		noteDescription.sendKeys((CharSequence) noteDescription);
 		WebElement savechanges = driver.findElement(By.id("save-changes"));
 		savechanges.click();
 		Assertions.assertEquals("Result", driver.getTitle());
@@ -159,7 +159,7 @@ class CloudStorageApplicationTests {
 		WebDriverWait delWait = new WebDriverWait(driver, 5);
 		driver.get("http://localhost:" + this.port + "/login");
 		WebElement inputUsername = driver.findElement(By.id("inputUsername"));
-		inputUsername.sendKeys(userName);
+		inputUsername.sendKeys(username);
 		WebElement inputPassword = driver.findElement(By.id("inputPassword"));
 		inputPassword.sendKeys(password);
 		WebElement loginButton = driver.findElement(By.id("login"));
@@ -188,7 +188,7 @@ class CloudStorageApplicationTests {
 
 		driver.get("http://localhost:" + this.port + "/login");
 		WebElement inputUsername = driver.findElement(By.id("inputUsername"));
-		inputUsername.sendKeys(userName);
+		inputUsername.sendKeys(username);
 		WebElement inputPassword = driver.findElement(By.id("inputPassword"));
 		inputPassword.sendKeys(password);
 		WebElement loginButton = driver.findElement(By.id("login"));
@@ -202,7 +202,7 @@ class CloudStorageApplicationTests {
 		credWait.until(ExpectedConditions.elementToBeClickable(newCred)).click();
 		credWait.until(ExpectedConditions.elementToBeClickable(By.id("credential-url"))).sendKeys(credURL);
 		WebElement credUsername = driver.findElement(By.id("credential-username"));
-		credUsername.sendKeys(userName);
+		credUsername.sendKeys(username);
 		WebElement credPassword = driver.findElement(By.id("credential-password"));
 		credPassword.sendKeys(password);
 		WebElement submit = driver.findElement(By.id("save-credential"));
@@ -217,7 +217,7 @@ class CloudStorageApplicationTests {
 		boolean created = false;
 		for (int i=0; i < credsList.size(); i++) {
 			WebElement element = credsList.get(i);
-			if (element.getAttribute("innerHTML").equals(userName)) {
+			if (element.getAttribute("innerHTML").equals(username)) {
 				created = true;
 				break;
 			}
@@ -233,7 +233,7 @@ class CloudStorageApplicationTests {
 
 		driver.get("http://localhost:" + this.port + "/login");
 		WebElement inputUsername = driver.findElement(By.id("inputUsername"));
-		inputUsername.sendKeys(userName);
+		inputUsername.sendKeys(username);
 		WebElement inputPassword = driver.findElement(By.id("inputPassword"));
 		inputPassword.sendKeys(password);
 		WebElement loginButton = driver.findElement(By.id("login"));
@@ -268,7 +268,7 @@ class CloudStorageApplicationTests {
 		//login
 		driver.get("http://localhost:" + this.port + "/login");
 		WebElement inputUsername = driver.findElement(By.id("inputUsername"));
-		inputUsername.sendKeys(userName);
+		inputUsername.sendKeys(username);
 		WebElement inputPassword = driver.findElement(By.id("inputPassword"));
 		inputPassword.sendKeys(password);
 		WebElement loginButton = driver.findElement(By.id("login"));

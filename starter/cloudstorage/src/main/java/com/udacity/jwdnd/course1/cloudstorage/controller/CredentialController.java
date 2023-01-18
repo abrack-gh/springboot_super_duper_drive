@@ -23,7 +23,7 @@ public class CredentialController {
         this.userMapper = userMapper;
     }
 
-    @PostMapping("/submit")
+    @PostMapping("submit-credential")
     public String submitCredentials(
             @ModelAttribute("CredentialStore") CredentialStore credentialStore,
             Authentication authentication,
@@ -33,22 +33,27 @@ public class CredentialController {
         String username = (String) authentication.getPrincipal();
 
 
-        Boolean isSuccess = this.credentialService.insertOrUpdateCredential(credentialStore, username);
+        Boolean isSuccess = credentialService.insertOrUpdateCredential(credentialStore, username);
 
 
         return "redirect:/result?isSuccess=" + isSuccess;
 
     }
+
+    @GetMapping(value = "/view-credential/{credentialId}")
+    public Credential getCredential(@PathVariable Integer credentialId){
+        return credentialService.getCredential(credentialId);
+    }
         
 
 
-    @GetMapping("/credential")
+    @GetMapping(value = "/delete-credential/{credentialId}")
     public String deleteCredentials(@ModelAttribute("credentialStore") CredentialStore credentialStore,
         @RequestParam(required = false, name = "credentialId") Integer credentialId,
         Authentication authentication,
         Model model){
 
-        Boolean isSuccess = this.credentialService.deleteCredentials(credentialId);
+        Boolean isSuccess = credentialService.deleteCredentials(credentialId);
 
         return "redirect:/result?isSuccess=" + isSuccess;
     }

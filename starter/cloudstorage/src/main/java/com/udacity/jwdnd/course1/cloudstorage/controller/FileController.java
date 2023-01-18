@@ -2,12 +2,11 @@ package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 
 import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
-import com.udacity.jwdnd.course1.cloudstorage.model.CredentialForm;
-import com.udacity.jwdnd.course1.cloudstorage.model.File;
-import com.udacity.jwdnd.course1.cloudstorage.model.NoteForm;
+import com.udacity.jwdnd.course1.cloudstorage.model.*;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
+import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
@@ -40,52 +40,64 @@ public class FileController {
 
     @Autowired
     private FileService fileService;
-
-
-    public FileController() {
-
-    }
-
-    public FileController(FileService fileService) {
-        this.fileService = fileService;
-    }
-
     private UserMapper userMapper;
     private NoteService noteService;
     private CredentialService credentialService;
+    private UserService userService;
 
-
-    public FileController(FileService fileService, UserMapper userMapper, NoteService noteService, CredentialService credentialService) {
+    public FileController(FileService fileService, UserMapper userMapper, NoteService noteService, CredentialService credentialService, UserService userService) {
         this.fileService = fileService;
         this.userMapper = userMapper;
         this.noteService = noteService;
         this.credentialService = credentialService;
+        this.userService = userService;
+    }
+
+    public UserMapper getUserMapper() {
+        return userMapper;
+    }
+
+    public UserService getUserService() {
+        return userService;
     }
 
     @PostMapping("/upload")
     public String uploadFile(
-            @RequestParam("fileUpload") MultipartFile fileUpload,
-            Authentication authentication
-    ) {
-        String username = (String) authentication.getPrincipal();
 
-        if (fileUpload.isEmpty()) {
+            @RequestParam("newFile")FileForm newFile,
+            @RequestParam("newNote") NoteForm newNote,
+            @RequestParam("newCredential") CredentialForm newCredential,
+            Authentication authentication,
+            Model model) {
+
+        String username = authentication.getName();
+        Integer userId = userService.getUser(username).getuserId();
+        String[] fileListings = (String[]) fileService.getFileListings(userId);
+        MultipartFile multipartFile = newFile.getFile();
+        String fileName = multipartFile.getOriginalFilename();
+
+        if (multipartFile.isEmpty()) {
             return "redirect:/result?isSuccess=" + false + "&errorType=" + 1;
         }
-
-        String fileName = fileUpload.getOriginalFilename();
 
         if (!this.fileService.isfileNameAvailableForUser(username, fileName)) {
             return "redirect:/result?isSuccess=" + false + "&errorType=" + 1;
         }
         try {
-            this.fileService.saveFile(fileUpload, username);
+            this.fileService.saveFile(multipartFile, username);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return "redirect:/result?isSuccess=" + true;
+        return "redirect:/home";
     }
+
+    @GetMapping(value = "/view/{fileName}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public @ResponseBody
+    byte[] getFile(@PathVariable String fileName){
+        return fileService.getFile(fileName).getfileData();
+    }
+
 
     @GetMapping("/delete")
     public String deleteFile(
