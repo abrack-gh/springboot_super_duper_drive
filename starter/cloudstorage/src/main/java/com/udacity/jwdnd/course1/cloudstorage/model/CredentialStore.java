@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 public class CredentialStore {
     private Integer credentialId;
-    private Integer userId;
+    private Integer userid;
     private String url;
     private String username;
     private String password;
@@ -17,14 +17,14 @@ public class CredentialStore {
 
     public CredentialStore(
             Integer credentialId,
-            Integer userId,
+            Integer userid,
             String url,
             String username,
             String key,
             String password) {
 
         this.credentialId = credentialId;
-        this.userId = userId;
+        this.userid = userid;
         this.url = url;
         this.username = username;
         this.key = key;
@@ -39,12 +39,12 @@ public class CredentialStore {
         this.credentialId = credentialId;
     }
 
-    public Integer getuserId() {
-        return userId;
+    public Integer getuserid() {
+        return userid;
     }
 
-    public void setuserId(Integer userId) {
-        this.userId = userId;
+    public void setuserid(Integer userid) {
+        this.userid = userid;
     }
 
     public String getUrl() {

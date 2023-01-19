@@ -29,7 +29,7 @@ public class UserService {
     public int loggedinUser(Authentication authentication){
         String username = authentication.getName();
 
-        return getUser(username).getuserId();
+        return getUser(username).getuserid();
     }
 
     public int createUser(User user) {

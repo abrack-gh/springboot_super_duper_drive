@@ -25,9 +25,9 @@ public class CredentialService {
         this.userMapper = userMapper;
     }
 
-    public void addCredential(String url, String userName, String credentialUserName, String key, String password) {
-        Integer userId = userMapper.getUser(userName).getuserId();
-        Credential credential = new Credential(0, url, credentialUserName, key, password, userId);
+    public void addCredential(String url, String username, String credentialUserName, String key, String password) {
+        Integer userid = userMapper.getUser(username).getuserid();
+        Credential credential = new Credential(0, url, credentialUserName, key, password, userid);
         credentialMapper.insert(credential);
     }
 
@@ -39,42 +39,20 @@ public class CredentialService {
 
         List<Credential> credentialList = credentialMapper.getAllCredentials(credentialId);
 
-        for(Credential credential : credentialList){
+        for (Credential credential : credentialList) {
             credential.setUnencodedPassword(encryptionService.decryptValue(credential.getPassword(), credential.getKey()));
         }
 
         return credentialList;
     }
 
-    public Boolean insertOrUpdateCredential(
-            CredentialStore credentialStore, String username) {
-
-        String password = credentialStore.getPassword();
-
-        SecureRandom random = new SecureRandom();
-        byte[] key = new byte[16];
-        random.nextBytes(key);
-        String encodedKey = Base64.getEncoder().encodeToString(key);
-        String encryptedPassword = encryptionService.encryptValue(password, encodedKey);
-
-        Integer credentialId = credentialStore.getcredentialId();
-
-        if (credentialId != null) {
-            this.credentialMapper.update(
-                    credentialStore.getUrl(),
-                    credentialStore.getUsername(),
-                    encodedKey,
-                    encryptedPassword,
-                    credentialId);
-        }
-
-        return true;
-    }
-
         public Boolean deleteCredentials (Integer credentialId){
             return credentialMapper.delete(credentialId);
         }
 
+        public void update(Integer credentialId, String newUsername, String newUrl, String key, String newPassword){
+        credentialMapper.update(credentialId, newUsername, newUrl, key, newPassword);
+        }
 }
 
 

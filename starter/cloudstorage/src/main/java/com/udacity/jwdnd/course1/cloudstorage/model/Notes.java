@@ -4,13 +4,13 @@ public class Notes {
     private Integer nodeid;
     private String noteTitle;
     private String noteDescription;
-    private int userId;
+    private int userid;
 
-    public Notes(Integer nodeid, String noteTitle, String noteDescription, int userId) {
+    public Notes(Integer nodeid, String noteTitle, String noteDescription, int userid) {
         this.nodeid = nodeid;
         this.noteTitle = noteTitle;
         this.noteDescription = noteDescription;
-        this.userId = userId;
+        this.userid = userid;
     }
 
     public Notes(String noteTitle, String noteDescription) {
@@ -46,11 +46,11 @@ public class Notes {
         this.noteDescription = noteDescription;
     }
 
-    public int getuserId() {
-        return userId;
+    public int getuserid() {
+        return userid;
     }
 
-    public void setuserId(int userId) {
-        this.userId = userId;
+    public void setuserid(int userid) {
+        this.userid = userid;
     }
 }

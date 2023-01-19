@@ -71,8 +71,8 @@ public class FileController {
             Model model) {
 
         String username = authentication.getName();
-        Integer userId = userService.getUser(username).getuserId();
-        String[] fileListings = (String[]) fileService.getFileListings(userId);
+        Integer userid = userService.getUser(username).getuserid();
+        String[] fileListings = (String[]) fileService.getFileListings(userid);
         MultipartFile multipartFile = newFile.getFile();
         String fileName = multipartFile.getOriginalFilename();
 
@@ -142,19 +142,19 @@ public class FileController {
                              @ModelAttribute("note")NoteForm noteForm, @ModelAttribute("credential") CredentialForm credentialForm){
         System.out.println("postFile" + file);
         String username = authentication.getName();
-        int userId = userMapper.getUser(username).getuserId();
+        int userid = userMapper.getUser(username).getuserid();
         if(file.isEmpty()){
             return "redirect:/result?isSuccess=" + false + "&errorType=" + 1;
         } else {
             File fileObj = new File();
             fileObj.setcontentType(file.getcontentType());
             fileObj.setfileName(file.getName());
-            fileObj.setuserId(userId);
+            fileObj.setuserid(userid);
             fileObj.setfileSize(file.getSize() + "");
 
             try {
                 fileObj.setfileData(fileObj.getfileSize().getBytes());
-                fileService.createFile(fileService.getFileById(userId));
+                fileService.createFile(fileService.getFileById(userid));
                 model.addAttribute("success", "File uploaded!");
             } catch (FileAlreadyExistsException e) {
                 e.printStackTrace();
@@ -162,9 +162,9 @@ public class FileController {
             }
         }
         model.addAttribute("tab", "nav-files-tab");
-        model.addAttribute("file", fileService.getUploadedFiles(userId));
-        model.addAttribute("notes", noteService.getUserNote(userId));
-        model.addAttribute("credentials", credentialService.getUserCredentials(userId));
+        model.addAttribute("file", fileService.getUploadedFiles(userid));
+        model.addAttribute("notes", noteService.getUserNote(userid));
+        model.addAttribute("credentials", credentialService.getUserCredentials(userid));
 
         return "home";
 

@@ -6,8 +6,8 @@ import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface NotesMapper {
-    @Select("SELECT *  FROM NOTES WHERE userId = #{userId}")
-    Notes[] getNotesForUser(Integer userId);
+    @Select("SELECT *  FROM NOTES WHERE userid = #{userid}")
+    Notes[] getNotesForUser(Integer userid);
 
     @Select("SELECT * FROM NOTES")
     Notes[] getNoteListings();
@@ -18,7 +18,7 @@ public interface NotesMapper {
     Notes getNote(Integer noteId);
 
 
-    @Insert("INSERT INTO NOTES (noteTitle = #{noteTitle}, noteDescription =  #{noteDescription}, userId = #{userId}")
+    @Insert("INSERT INTO NOTES (noteTitle = #{noteTitle}, noteDescription =  #{noteDescription}, userid = #{userid}")
     @Options(useGeneratedKeys = true, keyProperty = "noteId")
     int insert(Notes notes);
 

@@ -9,7 +9,8 @@ import java.util.List;
 @Mapper
 public interface CredentialMapper {
 
-    @Insert("INSERT INTO CREDENTIALS (credentialId, url, username, key, password, userId)" + "VALUES (#{credentialId}, #{url}, #{username}, #{key}, #{password}, #{userId})")
+    @Insert("INSERT INTO CREDENTIALS (url, username, key, password, userid) " +
+            "VALUES(#{url}, #{username}, #{key}, #{password}, #{userid})")
     @Options(useGeneratedKeys = true, keyProperty = "credentialId")
     int insert(Credential credential);
 
@@ -19,16 +20,12 @@ public interface CredentialMapper {
     @Select("SELECT * FROM CREDENTIALS WHERE username = #{username}")
     Credential getCredentialByCredentialByUsername(String username);
 
-    @Select("SELECT * FROM CREDENTIALS WHERE username = #{userId}")
-    List<Credential> getAllCredentials(int userId);
+    @Select("SELECT * FROM CREDENTIALS WHERE username = #{userid}")
+    List<Credential> getAllCredentials(int userid);
 
     @Delete("DELETE FROM CREDENTIALS WHERE credentialId = #{credentialId}")
     Boolean delete(Integer credentialId);
 
-    @Update("UPDATE credentials " +
-            "SET url = #{url}, username = #{username}, key = #{key}, " +
-            "password = #{password} " +
-            "WHERE credentialId = #{credentialId}")
-    int update(
-            String url, String username, String key, String password, Integer credentialId);
+    @Update("UPDATE CREDENTIALS SET url = #{url}, key = #{key}, password = #{password}, username = #{newUserName} WHERE credentialId = #{credentialId}")
+    void update(Integer credentialId, String newUserName, String url, String key, String password);
 }

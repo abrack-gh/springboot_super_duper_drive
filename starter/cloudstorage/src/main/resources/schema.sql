@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS USERS (
-    userId INT PRIMARY KEY auto_increment,
+    userid INT PRIMARY KEY auto_increment,
     username VARCHAR(20),
     salt VARCHAR,
     password VARCHAR,
@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS NOTES (
     noteId INT PRIMARY KEY auto_increment,
     noteTitle VARCHAR(20),
     noteDescription VARCHAR (1000),
-    userId INT,
-    foreign key (userId) references USERS(userId)
+    userid INT,
+    foreign key (userid) references USERS(userid)
 );
 
 CREATE TABLE IF NOT EXISTS FILES (
@@ -20,13 +20,13 @@ CREATE TABLE IF NOT EXISTS FILES (
     fileName VARCHAR,
     contentType VARCHAR,
     fileSize VARCHAR,
-    userId INT,
+    userid INT,
     fileData BLOB,
-    foreign key (userId) references USERS(userId)
+    foreign key (userid) references USERS(userid)
 );
 
 CREATE TABLE IF NOT EXISTS CREDENTIALS (
-    credentialid INT PRIMARY KEY auto_increment,
+    credentialId INT PRIMARY KEY auto_increment,
     url VARCHAR(100),
     username VARCHAR (30),
     key VARCHAR,

@@ -30,14 +30,14 @@ public class FileService {
 
         User user = this.userMapper.getUser(username);
 
-        Integer userId = user.getuserId();
+        Integer userid = user.getuserid();
 
         byte[] fileData = file.getBytes();
         String contentType = file.getContentType();
         String fileSize = String.valueOf(file.getSize());
         String fileName = file.getOriginalFilename();
 
-        this.fileMapper.insert(new File(null, fileName, contentType, fileSize, userId, fileData));
+        this.fileMapper.insert(new File(null, fileName, contentType, fileSize, userid, fileData));
 
         return true;
     }
@@ -61,8 +61,8 @@ public class FileService {
         return fileMapper.getFile(fileName);
     }
 
-    public Object getFileListings(Integer userId) {
-        return this.fileMapper.getFileById(userId);
+    public Object getFileListings(Integer userid) {
+        return this.fileMapper.getFileById(userid);
     }
 
     public boolean isfileNameAvailableForUser(String username, String fileName) {

@@ -36,10 +36,10 @@ public class HomeController {
         String username = authentication.getName();
         User user = userMapper.getUser(username);
         if(user != null) {
-            int userId = user.getuserId();
-            model.addAttribute("notes", noteService.getUserNote(userId));
+            int userid = user.getuserid();
+            model.addAttribute("notes", noteService.getUserNote(userid));
             model.addAttribute("files", fileService.getUploadedFiles());
-            model.addAttribute("credentials", credentialsService.getAllCredentials(userId));
+            model.addAttribute("credentials", credentialsService.getAllCredentials(userid));
             return "home";
         }
         return "signup";
@@ -52,13 +52,13 @@ public class HomeController {
         String username = authentication.getName();
         User user = userMapper.getUser(username);
         if(user != null) {
-            int userId = user.getuserId();
+            int userid = user.getuserid();
             model.addAttribute("notes", notes);
-            List<Notes> notesList = List.of(noteService.getNoteListings(userId));
+            List<Notes> notesList = List.of(noteService.getNoteListings(userid));
             model.addAttribute("file", file);
             List<File> filesList = fileService.getUploadedFiles();
             model.addAttribute("credential", credential);
-            List<Credential> credentials = credentialsService.getAllCredentials(userId);
+            List<Credential> credentials = credentialsService.getAllCredentials(userid);
             return "home";
         }
         return "signup";

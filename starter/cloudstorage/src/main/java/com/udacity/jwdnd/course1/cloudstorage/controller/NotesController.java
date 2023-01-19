@@ -25,7 +25,7 @@ public class NotesController {
 
     @PostMapping("/save")
     public String addNote(Authentication authentication, Notes notes, Model model){
-        notes.setuserId(notes.getuserId());
+        notes.setuserid(notes.getuserid());
 
         Boolean isSuccess = noteService.addNote(notes) > 0;
         return "redirect:/result?isSuccess=" + isSuccess;
