@@ -18,7 +18,7 @@ public class NoteService {
 
     public int addNote(Notes notes){
         int id;
-        if(notes.getNodeid() == null){
+        if(notes.getnoteId() == null){
             id = notesMapper.insert(notes);
         } else {
             id = notesMapper.updateNote(notes);

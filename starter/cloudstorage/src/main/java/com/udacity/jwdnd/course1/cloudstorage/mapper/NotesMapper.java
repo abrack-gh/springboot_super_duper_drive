@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.mapper;
 
+import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
 import com.udacity.jwdnd.course1.cloudstorage.model.Notes;
 import org.apache.ibatis.annotations.*;
@@ -18,7 +19,7 @@ public interface NotesMapper {
     Notes getNote(Integer noteId);
 
 
-    @Insert("INSERT INTO NOTES (noteTitle = #{noteTitle}, noteDescription =  #{noteDescription}, userid = #{userid}")
+    @Insert("INSERT INTO NOTES (noteTitle, noteDescription, userId)" + "VALUES(#{noteTitle}, #{noteDescription}, #{userID}")
     @Options(useGeneratedKeys = true, keyProperty = "noteId")
     int insert(Notes notes);
 
