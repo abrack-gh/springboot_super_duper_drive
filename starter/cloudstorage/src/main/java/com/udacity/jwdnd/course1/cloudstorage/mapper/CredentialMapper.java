@@ -20,7 +20,7 @@ public interface CredentialMapper {
     @Select("SELECT * FROM CREDENTIALS WHERE username = #{username}")
     Credential getCredentialByCredentialByUsername(String username);
 
-    @Select("SELECT * FROM CREDENTIALS WHERE username = #{userid}")
+    @Select("SELECT * FROM CREDENTIALS WHERE userId = #{userid}")
     List<Credential> getAllCredentials(int userid);
 
     @Delete("DELETE FROM CREDENTIALS WHERE credentialId = #{credentialId}")
