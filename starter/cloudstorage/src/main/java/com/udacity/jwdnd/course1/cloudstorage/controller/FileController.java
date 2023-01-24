@@ -65,6 +65,7 @@ public class FileController {
     public String uploadFile(
 
             @RequestParam("newFile")FileForm newFile,
+            @RequestParam MultipartFile file,
             @RequestParam("newNote") NoteForm newNote,
             @RequestParam("newCredential") CredentialForm newCredential,
             Authentication authentication,
