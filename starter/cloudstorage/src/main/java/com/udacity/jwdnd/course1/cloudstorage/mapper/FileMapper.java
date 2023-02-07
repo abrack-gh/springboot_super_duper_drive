@@ -16,16 +16,17 @@ public interface FileMapper {
     @Insert("INSERT INTO FILES (fileName, contentType, fileSize, fileData, userId)"
             + "VALUES(#{fileName}, #{fileName}, #{contentType},#{fileSize}, #{fileData}, #{userId}")
     @Options(useGeneratedKeys = true, keyProperty = "fileId")
-    int insert(File file);
+    void insert(File file);
 
     @Select("SELECT * FROM FILES")
-    List<File> getAllFiles();
+    List<File> getAllFiles(Integer userid);
 
-    @Select("SELECT * FROM FILES WHERE filename = #{fileName}")
-    File getFile(String fileName);
+    @Select("SELECT * FROM files WHERE userid = #{userId}")
+    List<File> getFile(int userId);
+
 
     @Delete("DELETE FROM FILES WHERE fileId = #{fileId}")
-    void delete(Integer fileId);
+    boolean delete(Integer fileId);
 
     @Select("SELECT * FROM FILES WHERE userid = #{userid} AND fileName = #{fileName}")
     List<File> getFileByUsernameAndfileName(Map<String, Object> paraMap);

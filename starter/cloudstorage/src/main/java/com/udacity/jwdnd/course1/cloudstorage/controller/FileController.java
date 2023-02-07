@@ -71,6 +71,8 @@ public class FileController {
             Authentication authentication,
             Model model) {
 
+        // Amber
+
         String username = authentication.getName();
         Integer userid = userService.getUser(username).getuserid();
         String[] fileListings = (String[]) fileService.getFileListings(userid);
@@ -100,7 +102,7 @@ public class FileController {
     }
 
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public String deleteFile(
             @RequestParam(required = false, name = "fileId") Integer fileId) {
         boolean isSuccess = this.fileService.deleteFile(fileId);

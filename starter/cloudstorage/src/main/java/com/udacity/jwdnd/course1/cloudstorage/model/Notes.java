@@ -50,7 +50,7 @@ public class Notes {
         return userid;
     }
 
-    public void setuserid(int userid) {
+    public void setUserId(int userid) {
         this.userid = userid;
     }
 }

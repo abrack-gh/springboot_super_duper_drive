@@ -1,14 +1,12 @@
 package com.udacity.jwdnd.course1.cloudstorage.model;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class NoteForm {
     private String title;
     private String description;
 
     public Integer noteId;
 
-    public Integer getnoteId() {
+    public String getnoteId() {
         return noteId;
     }
 

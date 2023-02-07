@@ -42,8 +42,8 @@ public class FileService {
         return true;
     }
 
-    public List<File> getUploadedFiles(){
-        return fileMapper.getAllFiles();
+    public List<File> getUploadedFiles(Integer userid){
+        return fileMapper.getAllFiles(userid);
     }
 
     public boolean deleteFile(Integer fileId) {
@@ -55,10 +55,6 @@ public class FileService {
 
     public File getFileById(Integer fileId){
         return fileMapper.getFileById(fileId);
-    }
-
-    public File getFile(String fileName){
-        return fileMapper.getFile(fileName);
     }
 
     public Object getFileListings(Integer userid) {

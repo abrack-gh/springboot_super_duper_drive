@@ -31,7 +31,7 @@ public class CredentialController {
             this.userService = userService;
         }
 
-    @PostMapping("submit-credential")
+    @PostMapping("/submit-credential")
     public String submitCredentials(
             @ModelAttribute("newCredential") CredentialForm newCredential,
             Authentication authentication,
@@ -61,14 +61,14 @@ public class CredentialController {
 
     }
 
-    @GetMapping(value = "/view-credential/{credentialId}")
+    @GetMapping("/view-credential/{credentialId}")
     public Credential getCredential(@PathVariable Integer credentialId){
         return credentialService.getCredential(credentialId);
     }
         
 
 
-    @GetMapping(value = "/delete-credential/{credentialId}")
+    @GetMapping("/delete-credential/{credentialId}")
     public String deleteCredentials(@ModelAttribute("credentialStore") CredentialStore credentialStore,
         @RequestParam(required = false, name = "credentialId") Integer credentialId,
         Authentication authentication,

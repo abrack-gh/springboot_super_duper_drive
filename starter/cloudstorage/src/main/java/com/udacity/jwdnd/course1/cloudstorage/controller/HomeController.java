@@ -56,7 +56,7 @@ public class HomeController {
             model.addAttribute("notes", notes);
             List<Notes> notesList = List.of(noteService.getNoteListings(userid));
             model.addAttribute("file", file);
-            List<File> filesList = fileService.getUploadedFiles();
+            List<File> filesList = fileService.getUploadedFiles(userid);
             model.addAttribute("credential", credential);
             List<Credential> credentials = credentialsService.getAllCredentials(userid);
             return "home";

@@ -17,20 +17,23 @@ public class NoteService {
     }
 
     public int addNote(Notes notes){
-        int id;
         if(notes.getnoteId() == null){
-            id = notesMapper.insert(notes);
+            notesMapper.insert(notes);
         } else {
-            id = notesMapper.updateNote(notes);
+            notesMapper.updateNote(notes);
         }
 
-        return id;
+        return 0;
     }
     public Notes[] getNoteListings(Integer userid){
         return notesMapper.getNotesForUser(userid);
     }
     public Notes getNote(Integer noteId) {
         return notesMapper.getNote(noteId);
+    }
+
+    public void updateNote(Notes notes){
+        this.notesMapper.updateNote(notes);
     }
 
     public void deleteNote(Integer noteId) {
