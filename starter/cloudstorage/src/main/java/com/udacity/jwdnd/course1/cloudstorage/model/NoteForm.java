@@ -6,7 +6,7 @@ public class NoteForm {
 
     public Integer noteId;
 
-    public String getnoteId() {
+    public Integer getnoteId() {
         return noteId;
     }
 

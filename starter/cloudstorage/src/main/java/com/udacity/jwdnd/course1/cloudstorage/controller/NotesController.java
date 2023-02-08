@@ -42,7 +42,7 @@ public class NotesController {
         notes.setnoteDescription(notes.getnoteDescription());
 
         if (note.getnoteId() == null) {
-            note.setnoteId(Integer.parseInt(note.getnoteId()));
+            note.setnoteId(Integer.parseInt(note.getnoteId().toString()));
             noteService.updateNote(notes);
         } else {
             noteService.addNote(notes);

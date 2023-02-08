@@ -10,7 +10,6 @@ import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -19,18 +18,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.List;
 
 
 @Controller
@@ -97,8 +89,8 @@ public class FileController {
 
     @GetMapping(value = "/view/{fileName}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public @ResponseBody
-    byte[] getFile(@PathVariable String fileName){
-        return fileService.getFile(fileName).getfileData();
+    List<File> getFile(@PathVariable Integer userId){
+        return fileService.getUploadedFiles(userId);
     }
 
 
