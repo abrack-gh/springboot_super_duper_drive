@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.FileAlreadyExistsException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,39 +25,27 @@ public class FileService {
         this.userMapper = userMapper;
     }
 
-    public boolean saveFile(MultipartFile file, String username) throws IOException {
+    public Integer saveFile(MultipartFile fileUpload, String username) throws IOException {
 
         User user = this.userMapper.getUser(username);
-
         Integer userid = user.getuserid();
 
-        byte[] fileData = file.getBytes();
-        String contentType = file.getContentType();
-        String fileSize = String.valueOf(file.getSize());
-        String fileName = file.getOriginalFilename();
+        //return fileMapper.insertFile((File) fileUpload);
 
-        this.fileMapper.insert(new File(null, fileName, contentType, fileSize, userid, fileData));
-
-        return true;
+        return fileMapper.insertFile(new File(null, fileUpload.getOriginalFilename(), fileUpload.getContentType(), Long.toString(fileUpload.getSize()), userid.intValue(), fileUpload.getInputStream()));
     }
 
     public List<File> getUploadedFiles(Integer userid){
         return fileMapper.getAllFiles(userid);
     }
 
-    public boolean deleteFile(Integer fileId) {
+    public void deleteFile(Integer fileId) {
 
         this.fileMapper.delete(fileId);
-
-        return true;
     }
 
     public File getFileById(Integer fileId){
-        return fileMapper.getFileById(fileId);
-    }
-
-    public Object getFileListings(Integer userid) {
-        return this.fileMapper.getFileById(userid);
+        return fileMapper.getFile(fileId);
     }
 
     public boolean isfileNameAvailableForUser(String username, String fileName) {

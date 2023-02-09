@@ -1,5 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.model;
 
+import java.io.InputStream;
+
 public class File {
     private Integer fileId;
     private String fileName;
@@ -17,7 +19,11 @@ public class File {
         this.fileData = fileData;
     }
 
-    public File() {
+    public File(){
+
+    }
+
+    public File(Integer fileId, String originalFilename, String contentType, String fileSize, int userid, InputStream inputStream) {
 
     }
 
