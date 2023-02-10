@@ -31,27 +31,27 @@ public class CredentialService {
 
     public int addCredential(Credential credential, String username) {
         User user = userService.getUser(username);
-        Integer userId = userService.getUser(username).getuserid();
+        Integer userid = userService.getUser(username).getuserid();
         SecureRandom secureRandom = new SecureRandom();
         byte[] key = new byte[16];
         secureRandom.nextBytes(key);
         String encodedKey = Base64.getEncoder().encodeToString(key);
         String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), encodedKey);
 
-        return credentialMapper.insertCredential(new Credential(null, credential.getUrl(), credential.getUrl(), credential.getUsername(), encodedKey, encryptedPassword, userId.intValue()));
+        return credentialMapper.insertCredential(new Credential(null, credential.getUrl(), credential.getUrl(), credential.getUsername(), encodedKey, encryptedPassword, userid.intValue()));
     }
 
-    public List<Credential> getAllCredentials(int userId) {
+    public List<Credential> getAllCredentials(int userid) {
 
-        return credentialMapper.getAllCredentials(userId);
+        return credentialMapper.getAllCredentials(userid);
     }
 
-    public Boolean deleteCredentials(Integer credentialId) {
-        return credentialMapper.delete(credentialId);
+    public Boolean deleteCredentials(Integer credentialid) {
+        return credentialMapper.delete(credentialid);
     }
 
     public void updateCredential(Credential credential, String username) {
-        Integer credentialId = credential.getCredentialId();
+        Integer credentialid = credential.getCredentialId();
         String url = credential.getUrl();
         String credentialUsername = credential.getUsername();
         SecureRandom secureRandom = new SecureRandom();
@@ -62,12 +62,12 @@ public class CredentialService {
         User user = this.userService.getUser(username);
         Integer userid = userService.getUser(username).getuserid();
 
-        this.credentialMapper.update(credentialId, url, credentialUsername, encodedKey, encryptedPassword, userid);
+        this.credentialMapper.update(credentialid, url, credentialUsername, encodedKey, encryptedPassword, userid);
     }
 
-    public Map<Integer, String> getUnencryptedPassword(Integer userId){
+    public Map<Integer, String> getUnencryptedPassword(Integer userid){
         Map<Integer, String> passwordMap = new HashMap<>();
-        List<Credential> credentialList = credentialMapper.getAllCredentials(userId);
+        List<Credential> credentialList = credentialMapper.getAllCredentials(userid);
         for(Credential credential : credentialList){
             passwordMap.put(credential.getCredentialId(), encryptionService.decryptValue(credential.getPassword(), credential.getKey()));
         }

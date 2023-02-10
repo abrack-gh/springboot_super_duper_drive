@@ -3,60 +3,60 @@ package com.udacity.jwdnd.course1.cloudstorage.model;
 import java.io.InputStream;
 
 public class File {
-    private Integer fileId;
-    private String fileName;
-    private String contentType;
-    private String fileSize;
+    private Integer fileid;
+    private String filename;
+    private String contenttype;
+    private String filesize;
     private Integer userid;
-    private byte[] fileData;
+    private byte[] filedata;
 
-    public File(Integer fileId, String fileName, String contentType, String fileSize, Integer userid, byte[] fileData) {
-        this.fileId = fileId;
-        this.fileName = fileName;
-        this.contentType = contentType;
-        this.fileSize = fileSize;
+    public File(Integer fileid, String filename, String contenttype, String filesize, Integer userid, byte[] filedata) {
+        this.fileid = fileid;
+        this.filename = filename;
+        this.contenttype = contenttype;
+        this.filesize = filesize;
         this.userid = userid;
-        this.fileData = fileData;
+        this.filedata = filedata;
     }
 
     public File(){
 
     }
 
-    public File(Integer fileId, String originalFilename, String contentType, String fileSize, int userid, InputStream inputStream) {
+    public File(Integer fileid, String originalFilename, String contenttype, String filesize, int userid, InputStream inputStream) {
 
     }
 
-    public Integer getfileId() {
-        return fileId;
+    public Integer getfileid() {
+        return fileid;
     }
 
-    public void setfileId(Integer fileId) {
-        this.fileId = fileId;
+    public void setfileid(Integer fileid) {
+        this.fileid = fileid;
     }
 
-    public String getfileName() {
-        return fileName;
+    public String getfilename() {
+        return filename;
     }
 
-    public void setfileName(String fileName) {
-        this.fileName = fileName;
+    public void setfilename(String filename) {
+        this.filename = filename;
     }
 
-    public String getcontentType() {
-        return contentType;
+    public String getcontenttype() {
+        return contenttype;
     }
 
-    public void setcontentType(String contentType) {
-        this.contentType = contentType;
+    public void setcontenttype(String contenttype) {
+        this.contenttype = contenttype;
     }
 
-    public String getfileSize() {
-        return fileSize;
+    public String getfilesize() {
+        return filesize;
     }
 
-    public void setfileSize(String fileSize) {
-        this.fileSize = fileSize;
+    public void setfilesize(String filesize) {
+        this.filesize = filesize;
     }
 
     public Integer getuserid() {
@@ -67,11 +67,11 @@ public class File {
         this.userid = userid;
     }
 
-    public byte[] getfileData() {
-        return fileData;
+    public byte[] getfiledata() {
+        return filedata;
     }
 
-    public void setfileData(byte[] fileData) {
-        this.fileData = fileData;
+    public void setfiledata(byte[] filedata) {
+        this.filedata = filedata;
     }
 }

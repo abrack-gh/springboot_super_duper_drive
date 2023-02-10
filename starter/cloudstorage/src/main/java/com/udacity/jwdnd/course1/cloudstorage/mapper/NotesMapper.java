@@ -10,22 +10,20 @@ import java.util.List;
 @Mapper
 public interface NotesMapper {
     @Select("SELECT *  FROM NOTES WHERE notetitle = #{notetitle}")
-    Notes getNote(String noteTitle);
+    Notes getNote(String notetitle);
 
     @Select("SELECT * FROM NOTES WHERE userid=#{notetitle}")
     List<Notes> getAllNotes(Integer userid);
 
     @Insert("INSERT INTO NOTES (notetitle, notedescription, userid)" + "VALUES(#{notetitle}, #{notedescription}, #{userid}")
     @Options(useGeneratedKeys = true, keyProperty = "noteid")
-    void insert(Notes notes);
+    int insert(Notes notes);
 
     @Delete("DELETE FROM NOTES WHERE noteId = #{noteid}")
     void deleteNote(Integer noteId);
 
-    @Update("UPDATE NOTES " +
-            " SET notetitle = #{notetitle}, notedescription = #{notedescription} " +
-            " WHERE noteid = #{noteid}")
-    int updateNote(Notes notes);
+    @Update("UPDATE NOTES SET notetitle = #{notetitle}, notedescription = #{notedescription} , userid = #{userid} WHERE noteid = #{noteid}")
+    void updateNote(Integer noteid, String notetitle, String notedescription, Integer userid);
 
 }
 

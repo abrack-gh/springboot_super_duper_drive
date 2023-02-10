@@ -34,12 +34,12 @@
 //                          Authentication authentication) {
 //
 //        String username = authentication.getName();
-//        int userId = userMapper.getUser(username).getuserid();
+//        int userid = userMapper.getUser(username).getuserid();
 //        Notes notes = new Notes();
 //
-//        notes.setUserId(userId);
-//        notes.setnoteTitle(notes.getnoteTitle());
-//        notes.setnoteDescription(notes.getnoteDescription());
+//        notes.setUserId(userid);
+//        notes.setnotetitle(notes.getnotetitle());
+//        notes.setnotedescription(notes.getnotedescription());
 //
 //        if (note.getnoteId() == null) {
 //            note.setnoteId(Integer.parseInt(note.getnoteId().toString()));
@@ -50,9 +50,9 @@
 //
 //        model.addAttribute("success", true);
 //        model.addAttribute("tab", "nav-notes-tab");
-//        model.addAttribute("notes", noteService.getNoteListings(userId));
-//        model.addAttribute("files", fileService.getUploadedFiles(userId));
-//        model.addAttribute("credentials", credentialService.getCredential(userId));
+//        model.addAttribute("notes", noteService.getNoteListings(userid));
+//        model.addAttribute("files", fileService.getUploadedFiles(userid));
+//        model.addAttribute("credentials", credentialService.getCredential(userid));
 //
 //        return "home";
 //    }

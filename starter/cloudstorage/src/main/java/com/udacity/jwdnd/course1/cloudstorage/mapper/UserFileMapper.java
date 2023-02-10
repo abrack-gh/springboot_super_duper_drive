@@ -14,7 +14,7 @@ public interface UserFileMapper {
 
     public List<File> getFileByUsername(String username);
 
-    public List<File> getFileByUsernameAndfileName(Map<String, Object> paraMap);
+    public List<File> getFileByUsernameAndfilename(Map<String, Object> paraMap);
 }
 
  */

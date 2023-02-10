@@ -22,8 +22,8 @@ class CloudStorageApplicationTests {
 	private static String lastName = "checklastName";
 	private static String username = "user";
 	private static String password = "password";
-	private static String noteTitle = "New Note Title";
-	private static String noteDescription = "New Note Description";
+	private static String notetitle = "New Note Title";
+	private static String notedescription = "New Note Description";
 	private static String credURL = "google.com";
 
 	@LocalServerPort
@@ -130,9 +130,9 @@ class CloudStorageApplicationTests {
 		wait.withTimeout(Duration.ofSeconds(30));
 		WebElement newNote = driver.findElement(By.id("newnote"));
 		wait.until(ExpectedConditions.elementToBeClickable(newNote)).click();
-		wait.until(ExpectedConditions.elementToBeClickable(By.id("note-title"))).sendKeys(noteTitle);
-		WebElement noteDescription = driver.findElement(By.id("note-description"));
-		noteDescription.sendKeys((CharSequence) noteDescription);
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("note-title"))).sendKeys(notetitle);
+		WebElement notedescription = driver.findElement(By.id("note-description"));
+		notedescription.sendKeys((CharSequence) notedescription);
 		WebElement savechanges = driver.findElement(By.id("save-changes"));
 		savechanges.click();
 		Assertions.assertEquals("Result", driver.getTitle());
@@ -145,7 +145,7 @@ class CloudStorageApplicationTests {
 		boolean created = false;
 		for (int i = 0; i < notesList.size(); i++) {
 			WebElement element = notesList.get(i);
-			if (element.getAttribute("innerHTML").equals(noteTitle)) {
+			if (element.getAttribute("innerHTML").equals(notetitle)) {
 				created = true;
 				break;
 			}

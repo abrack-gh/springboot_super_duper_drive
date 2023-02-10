@@ -16,8 +16,6 @@ import java.util.Map;
 @Service
 public class FileService {
 
-    @Autowired
-
     private FileMapper fileMapper;
     private UserMapper userMapper;
     public FileService(FileMapper fileMapper, UserMapper userMapper) {
@@ -39,23 +37,23 @@ public class FileService {
         return fileMapper.getAllFiles(userid);
     }
 
-    public void deleteFile(Integer fileId) {
+    public void deleteFile(Integer fileid) {
 
-        this.fileMapper.delete(fileId);
+        this.fileMapper.delete(fileid);
     }
 
-    public File getFileById(Integer fileId){
-        return fileMapper.getFile(fileId);
+    public File getFileById(Integer fileid){
+        return fileMapper.getFile(fileid);
     }
 
-    public boolean isfileNameAvailableForUser(String username, String fileName) {
+    public boolean isfilenameAvailableForUser(String username, String filename) {
 
         Map<String, Object> paraMap = new HashMap<>();
 
         paraMap.put("username", username);
-        paraMap.put("fileName", fileName);
+        paraMap.put("filename", filename);
 
-        return this.fileMapper.getFileByUsernameAndfileName(paraMap).isEmpty();
+        return this.fileMapper.getFileByUsernameAndfilename(paraMap).isEmpty();
     }
 
 

@@ -3,6 +3,7 @@ package com.udacity.jwdnd.course1.cloudstorage.services;
 import com.udacity.jwdnd.course1.cloudstorage.mapper.NotesMapper;
 import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.Notes;
+import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,24 +19,30 @@ public class NoteService {
         this.userMapper = userMapper;
     }
 
-    public int addNote(Notes notes){
-        if(notes.getnoteId() == null){
-            notesMapper.insert(notes);
-        } else {
-            notesMapper.updateNote(notes);
-        }
+    public int addNote(Notes notes, String username){
+        User user = this.userMapper.getUser(username);
+        Integer userid = user.getuserid();
+        String notetitle = notes.getNotetitle();
+        String notedescription = notes.getNotedescription();
+        return notesMapper.insert(notes);
 
-        return 0;
     }
     public List<Notes> getNoteListings(Integer userid){
         return notesMapper.getAllNotes(userid);
     }
-    public Notes getNote(String noteTitle) {
-        return notesMapper.getNote(noteTitle);
+    public Notes getNote(String notetitle) {
+        return notesMapper.getNote(notetitle);
     }
 
-    public void updateNote(Notes notes){
-        this.notesMapper.updateNote(notes);
+    public void updateNote(Notes notes, String username){
+        User user = this.userMapper.getUser(username);
+        Integer userid = user.getuserid();
+        Integer noteId = notes.getNoteid();
+        String notetitle = notes.getNotetitle();
+        String notedescription = notes.getNotedescription();
+
+        this.notesMapper.updateNote(noteId.intValue(), notetitle, notedescription, userid.intValue());
+
     }
 
     public void deleteNote(Integer noteId) {

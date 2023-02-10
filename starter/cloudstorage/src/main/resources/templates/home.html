@@ -54,10 +54,10 @@
                         <tbody>
                         <tr th:each="file : ${files}">
                             <td>
-                                <a target="_blank" th:href="@{/home/view-file/{id}(id = ${file.fileId})}" class="btn btn-success">View</a>
-                                <a  class="btn btn-danger" th:href="@{/home/delete-file/{id}(id = ${file.fileId})}" >Delete</a>
+                                <a target="_blank" th:href="@{/home/view-file/{id}(id = ${file.fileid})}" class="btn btn-success">View</a>
+                                <a  class="btn btn-danger" th:href="@{/home/delete-file/{id}(id = ${file.fileid})}" >Delete</a>
                             </td>
-                            <th scope="row" th:text="${file.fileName}" ></th>
+                            <th scope="row" th:text="${file.filename}" ></th>
                         </tr>
                         </tbody>
                     </table>
@@ -84,15 +84,15 @@
                             <td>
                                 <button id="btnEditNote" type="button" class="btn btn-success"
                                         th:data-id="${userNote.getnoteId()}"
-                                        th:data-title="${userNote.getnoteTitle()}"
-                                        th:data-description="${userNote.getnoteDescription()}"
+                                        th:data-title="${userNote.getnotetitle()}"
+                                        th:data-description="${userNote.getnotedescription()}"
                                         th:onClick="showNoteModal(this.getAttribute('data-id'), this.getAttribute('data-title'), this.getAttribute('data-description'))">
                                     Edit
                                 </button>
                                 <a id="ancDeleteNote" class="btn btn-danger" th:href="@{/home/deleteNote/{id}(id = ${userNote.noteid})}" >Delete</a>
                             </td>
-                            <th id="show-note-title" scope="row" th:text="${userNote.noteTitle}" class="noteTitle" name="noteTitle">Example Note Title</th>
-                            <td id="show-note-description" th:text="${userNote.noteDescription}" class="noteDescription" name="noteDescription">Example Note Description </td>
+                            <th id="show-note-title" scope="row" th:text="${userNote.notetitle}" class="notetitle" name="notetitle">Example Note Title</th>
+                            <td id="show-note-description" th:text="${userNote.notedescription}" class="notedescription" name="notedescription">Example Note Description </td>
                         </tr>
                         </tbody>
                     </table>
@@ -112,11 +112,11 @@
                                     <input type="hidden" name="noteId" field="*{noteId}" id="note-id">
                                     <div class="form-group">
                                         <label for="note-title" class="col-form-label">Title</label>
-                                        <input type="text" name= "noteTitle" class="form-control" id="note-title" maxlength="20" field="*{title}" required >
+                                        <input type="text" name= "notetitle" class="form-control" id="note-title" maxlength="20" field="*{title}" required >
                                     </div>
                                     <div class="form-group">
                                         <label for="note-description" class="col-form-label">Description</label>
-                                        <textarea class="form-control" name="noteDescription" id="note-description" rows="5" maxlength="1000" field="*{description}" required></textarea>
+                                        <textarea class="form-control" name="notedescription" id="note-description" rows="5" maxlength="1000" field="*{description}" required></textarea>
                                     </div>
                                     <button id="noteSubmit" type="submit" class="d-none"></button>
                                 </form>
@@ -181,7 +181,7 @@
                             </div>
                             <div class="modal-body">
                                 <form action="#" th:object="${credentialObject}" method="POST" th:action="@{'/home/credential'}" >
-                                    <input type="hidden" name="credentialId" field="*{credentialId}" id="credential-id">
+                                    <input type="hidden" name="credentialid" field="*{credentialid}" id="credential-id">
                                     <div class="form-group">
                                         <label for="credential-url" class="col-form-label">URL</label>
                                         <input type="text" name= "url" class="form-control" id="credential-url" field="*{url}" maxlength="100" required>
@@ -216,16 +216,16 @@
 <!--For opening the note modal-->
 <script type="text/javascript">
     // For opening the note modal
-    function showNoteModal(noteId, noteTitle, noteDescription) {
+    function showNoteModal(noteId, notetitle, notedescription) {
         $('#note-id').val(noteId ? noteId : '');
-        $('#note-title').val(noteTitle ? noteTitle : '');
-        $('#note-description').val(noteDescription ? noteDescription : '');
+        $('#note-title').val(notetitle ? notetitle : '');
+        $('#note-description').val(notedescription ? notedescription : '');
         $('#noteModal').modal('show');
     }
 
     //For opening the credentials modal
-    function showCredentialModal(credentialId, url, username, password) {
-        $('#credential-id').val(credentialId ? credentialId : '');
+    function showCredentialModal(credentialid, url, username, password) {
+        $('#credential-id').val(credentialid ? credentialid : '');
         $('#credential-url').val(url ? url : '');
         $('#credential-username').val(username ? username : '');
         $('#credential-password').val(password ? password : '');

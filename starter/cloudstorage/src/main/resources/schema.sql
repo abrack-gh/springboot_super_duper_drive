@@ -9,24 +9,24 @@ CREATE TABLE IF NOT EXISTS USERS (
 
 CREATE TABLE IF NOT EXISTS NOTES (
     noteId INT PRIMARY KEY auto_increment,
-    noteTitle VARCHAR(20),
-    noteDescription VARCHAR (1000),
+    notetitle VARCHAR(20),
+    notedescription VARCHAR (1000),
     userid INT,
     foreign key (userid) references USERS(userid)
 );
 
 CREATE TABLE IF NOT EXISTS FILES (
-    fileId INT PRIMARY KEY auto_increment,
-    fileName VARCHAR,
-    contentType VARCHAR,
-    fileSize VARCHAR,
+    fileid INT PRIMARY KEY auto_increment,
+    filename VARCHAR,
+    contenttype VARCHAR,
+    filesize VARCHAR,
     userid INT,
-    fileData BLOB,
+    filedata BLOB,
     foreign key (userid) references USERS(userid)
 );
 
 CREATE TABLE IF NOT EXISTS CREDENTIALS (
-    credentialId INT PRIMARY KEY auto_increment,
+    credentialid INT PRIMARY KEY auto_increment,
     url VARCHAR(100),
     username VARCHAR (30),
     key VARCHAR,

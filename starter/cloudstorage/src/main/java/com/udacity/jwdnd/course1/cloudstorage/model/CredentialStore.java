@@ -3,7 +3,7 @@ package com.udacity.jwdnd.course1.cloudstorage.model;
 import org.springframework.stereotype.Service;
 
 public class CredentialStore {
-    private Integer credentialId;
+    private Integer credentialid;
     private Integer userid;
     private String url;
     private String username;
@@ -16,14 +16,14 @@ public class CredentialStore {
     }
 
     public CredentialStore(
-            Integer credentialId,
+            Integer credentialid,
             Integer userid,
             String url,
             String username,
             String key,
             String password) {
 
-        this.credentialId = credentialId;
+        this.credentialid = credentialid;
         this.userid = userid;
         this.url = url;
         this.username = username;
@@ -31,12 +31,12 @@ public class CredentialStore {
         this.password = password;
     }
 
-    public Integer getcredentialId() {
-        return credentialId;
+    public Integer getcredentialid() {
+        return credentialid;
     }
 
-    public void setcredentialId(Integer credentialId) {
-        this.credentialId = credentialId;
+    public void setcredentialid(Integer credentialid) {
+        this.credentialid = credentialid;
     }
 
     public Integer getuserid() {

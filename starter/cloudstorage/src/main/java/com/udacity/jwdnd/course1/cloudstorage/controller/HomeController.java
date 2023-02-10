@@ -71,21 +71,21 @@ public class HomeController {
     @PostMapping("/home/note")
     public String addNote(@ModelAttribute("noteObject") Notes notes, @ModelAttribute("credentialObject") Credential credential, Model model, Authentication authentication) {
         String username = authentication.getName();
-        Integer userId = userMapper.getUser(username).getuserid();
+        Integer userid = userMapper.getUser(username).getuserid();
         User user = userMapper.getUser(username);
-        notes.setUserId(userId);
+        notes.setUserId(userid);
 
         String error = null;
 
-        if (notes.getnoteId() == null) {
+        if (notes.getNoteid() == null) {
             try {
-                noteService.addNote(notes);
+                noteService.addNote(notes, username);
             } catch (Exception e) {
                 error = "Error";
             }
         } else {
             try {
-                noteService.updateNote(notes);
+                noteService.updateNote(notes, username);
             } catch (Exception e) {
                 error = "Error";
             }
@@ -174,9 +174,9 @@ public class HomeController {
         }
 
         if (error == null) {
-            String fileName = fileUpload.getOriginalFilename();
-            boolean fileNameTaken = fileService.isfileNameAvailableForUser(username, fileName);
-            if (fileNameTaken) {
+            String filename = fileUpload.getOriginalFilename();
+            boolean filenameTaken = fileService.isfilenameAvailableForUser(username, filename);
+            if (filenameTaken) {
                 error = "File already exists";
             } else if (error == null) {
                 fileService.saveFile(fileUpload, username);
@@ -192,11 +192,11 @@ public class HomeController {
     @GetMapping("/home/view-file/{id}")
     public String viewFile(@PathVariable("id") Integer id, HttpServletResponse httpServletResponse) throws IOException {
         File file = fileService.getFileById(id);
-        httpServletResponse.setContentType(file.getcontentType());
-        httpServletResponse.setContentLength(Integer.valueOf(file.getfileSize()));
-        httpServletResponse.setHeader("Content-Disposition","attachment; filename=\"" + file.getfileName() +"\"");
+        httpServletResponse.setContentType(file.getcontenttype());
+        httpServletResponse.setContentLength(Integer.valueOf(file.getfilesize()));
+        httpServletResponse.setHeader("Content-Disposition","attachment; filename=\"" + file.getfilename() +"\"");
 
-        FileCopyUtils.copy(file.getfileData(), httpServletResponse.getOutputStream());
+        FileCopyUtils.copy(file.getfiledata(), httpServletResponse.getOutputStream());
 
         return "result";
     }

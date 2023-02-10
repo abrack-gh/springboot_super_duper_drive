@@ -39,7 +39,7 @@
 //
 //        String username = (String) authentication.getName();
 //        String newUrl = newCredential.getUrl();
-//        String credentialIdStr = newCredential.getcredentialId();
+//        String credentialidStr = newCredential.getcredentialid();
 //        String password = newCredential.getPassword();
 //
 //        SecureRandom random = new SecureRandom();
@@ -49,10 +49,10 @@
 //        String encryptedPassword = encryptionService.encryptValue(password, encodedKey);
 //
 //
-//        if(credentialIdStr.isEmpty()){
+//        if(credentialidStr.isEmpty()){
 //            credentialService.addCredential(newUrl, username, newCredential.getUsername(), encodedKey, encryptedPassword);
 //        } else {
-//            Credential credentialExists = getCredential(Integer.parseInt(credentialIdStr));
+//            Credential credentialExists = getCredential(Integer.parseInt(credentialidStr));
 //            credentialService.update(credentialExists.getCredentialId(), newCredential.getUsername(), newUrl, encodedKey, encryptedPassword);
 //        }
 //
@@ -61,20 +61,20 @@
 //
 //    }
 //
-//    @GetMapping("/view-credential/{credentialId}")
-//    public Credential getCredential(@PathVariable Integer credentialId){
-//        return credentialService.getCredential(credentialId);
+//    @GetMapping("/view-credential/{credentialid}")
+//    public Credential getCredential(@PathVariable Integer credentialid){
+//        return credentialService.getCredential(credentialid);
 //    }
 //
 //
 //
-//    @GetMapping("/delete-credential/{credentialId}")
+//    @GetMapping("/delete-credential/{credentialid}")
 //    public String deleteCredentials(@ModelAttribute("credentialStore") CredentialStore credentialStore,
-//        @RequestParam(required = false, name = "credentialId") Integer credentialId,
+//        @RequestParam(required = false, name = "credentialid") Integer credentialid,
 //        Authentication authentication,
 //        Model model){
 //
-//        Boolean isSuccess = credentialService.deleteCredentials(credentialId);
+//        Boolean isSuccess = credentialService.deleteCredentials(credentialid);
 //
 //        return "redirect:/result?isSuccess=" + isSuccess;
 //    }

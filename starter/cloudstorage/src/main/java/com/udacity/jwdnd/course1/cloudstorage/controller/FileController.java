@@ -69,13 +69,13 @@
 //        Integer userid = userService.getUser(username).getuserid();
 //        String[] fileListings = (String[]) fileService.getFileListings(userid);
 //        MultipartFile multipartFile = newFile.getFile();
-//        String fileName = multipartFile.getOriginalFilename();
+//        String filename = multipartFile.getOriginalFilename();
 //
 //        if (multipartFile.isEmpty()) {
 //            return "redirect:/result?isSuccess=" + false + "&errorType=" + 1;
 //        }
 //
-//        if (!this.fileService.isfileNameAvailableForUser(username, fileName)) {
+//        if (!this.fileService.isfilenameAvailableForUser(username, filename)) {
 //            return "redirect:/result?isSuccess=" + false + "&errorType=" + 1;
 //        }
 //        try {
@@ -87,38 +87,38 @@
 //        return "redirect:/home";
 //    }
 //
-//    @GetMapping(value = "/view/{fileName}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+//    @GetMapping(value = "/view/{filename}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 //    public @ResponseBody
-//    List<File> getFile(@PathVariable Integer userId){
-//        return fileService.getUploadedFiles(userId);
+//    List<File> getFile(@PathVariable Integer userid){
+//        return fileService.getUploadedFiles(userid);
 //    }
 //
 //
 //    @DeleteMapping("/delete")
 //    public String deleteFile(
-//            @RequestParam(required = false, name = "fileId") Integer fileId) {
-//        boolean isSuccess = this.fileService.deleteFile(fileId);
+//            @RequestParam(required = false, name = "fileid") Integer fileid) {
+//        boolean isSuccess = this.fileService.deleteFile(fileid);
 //        return "redirect:/result?isSuccess=" + isSuccess;
 //    }
 //
 //    @GetMapping("/download")
 //    public ResponseEntity<InputStreamResource> downloadFile(
-//            @RequestParam(required = false, name = "fileId") Integer fileId){
+//            @RequestParam(required = false, name = "fileid") Integer fileid){
 //
-//        File file = this.fileService.getFileById(fileId);
+//        File file = this.fileService.getFileById(fileid);
 //
-//        String fileName = file.getfileName();
-//        String contentType = file.getcontentType();
+//        String filename = file.getfilename();
+//        String contenttype = file.getcontenttype();
 //
-//        byte[] fileData = file.getfileData();
+//        byte[] filedata = file.getfiledata();
 //
-//        InputStream inputStream = new ByteArrayInputStream(fileData);
+//        InputStream inputStream = new ByteArrayInputStream(filedata);
 //
 //        InputStreamResource resource = new InputStreamResource(inputStream);
 //
 //        return ResponseEntity.ok()
-//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;fileName=" + fileName)
-//                .contentType(MediaType.parseMediaType(contentType))
+//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + filename)
+//                .contenttype(MediaType.parseMediaType(contenttype))
 //                .body(resource);
 //    }
 //
@@ -142,13 +142,13 @@
 //            return "redirect:/result?isSuccess=" + false + "&errorType=" + 1;
 //        } else {
 //            File fileObj = new File();
-//            fileObj.setcontentType(file.getcontentType());
-//            fileObj.setfileName(file.getName());
+//            fileObj.setcontenttype(file.getcontenttype());
+//            fileObj.setfilename(file.getName());
 //            fileObj.setuserid(userid);
-//            fileObj.setfileSize(file.getSize() + "");
+//            fileObj.setfilesize(file.getSize() + "");
 //
 //            try {
-//                fileObj.setfileData(fileObj.getfileSize().getBytes());
+//                fileObj.setfiledata(fileObj.getfilesize().getBytes());
 //                fileService.createFile(fileService.getFileById(userid));
 //                model.addAttribute("success", "File uploaded!");
 //            } catch (FileAlreadyExistsException e) {
@@ -170,12 +170,12 @@
 //    public ResponseEntity<byte[]> viewFile(@PathVariable(name = "id") String id,
 //                                           HttpServletResponse response, HttpServletRequest request) {
 //        File file = fileService.getFileById(Integer.parseInt(id));
-//        byte[] fileContents = file.getfileData();
+//        byte[] fileContents = file.getfiledata();
 //
 //        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.setcontentType(MediaType.parseMediaType(file.getcontentType()));
-//        String fileName = file.getfileName();
-//        httpHeaders.setContentDispositionFormData(fileName, fileName);
+//        httpHeaders.setcontenttype(MediaType.parseMediaType(file.getcontenttype()));
+//        String filename = file.getfilename();
+//        httpHeaders.setContentDispositionFormData(filename, filename);
 //        httpHeaders.setCacheControl("must-revalidate, post-check=0, pre-check=0");
 //        ResponseEntity<byte[]> serverResponse = new ResponseEntity<byte[]>(fileContents, httpHeaders, HttpStatus.OK);
 //        return serverResponse;
