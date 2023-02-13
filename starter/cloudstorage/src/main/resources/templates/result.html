@@ -1,7 +1,4 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
@@ -13,23 +10,18 @@
 </head>
 <body class="p-3 mb-2 bg-light text-black">
 <div class="container justify-content-center w-50 p-3" style="margin-top: 5em;">
-    <span> << Click <a th:href="@{/home}">here</a> to go back.</span>
-    <div th:if ="${isSuccess}" class="alert alert-success fill-parent">
-        <h1 class="display-5">Success</h1>
-        <span th:text="${successMessage}">Your changes were successfully saved. Click <a>here</a> to continue.</span>
+    <div class="alert alert-success fill-parent" th:if="${successMessage}">
+        <h1 class="display-5" id="success" th:if="${successMessage}">Success</h1>
+        <span th:if="${successMessage}">Your changes were successfully saved. Click <a id="all-files-after-success-link" th:href="@{/home}">here</a> to continue.</span>
     </div>
-    <div th:if="${errorMessage}" class="alert alert-danger fill-parent">
-        <h1 class="display-5">Error</h1>
-        <span th:text="${errorMessage}">Your changes were not saved. Click <a>here</a> to continue.</span>
+    <div class="alert alert-danger fill-parent" th:if="${failureMessage}" >
+        <h1 class="display-5" id="fileError" th:if="${failureMessage}" >Error</h1>
+        <span th:if="${failureMessage}">Your changes were not saved. Click <a id="all-files-after-error-link" th:href="@{/home}">here</a> to continue.</span>
     </div>
-
-    <div th:if="${file}">
-        <h1 class="display-5" >File details</h1>
-        <p>File name: <span th:text="${file.getfilename}">Example Error Message</span></p>
-        <p>File type: <span th:text="${file.getcontenttype}">Type not available</span></p>
-        <p>File size: <span th:text="${file.getfilesize}">Size not available</span></p>
-        <p><a th:href="@{|/file/download/${file.getfilename}|}">Download</a></p>
-
+    <div class="alert alert-danger fill-parent" th:if="${failureMessage}">
+        <h1 class="display-5" th:if="${failureMessage}">Error</h1>
+        <span th:if="${failureMessage}" th:text="${failureMessage}">Example Error Message</span>
+        <span th:if="${failureMessage}">Click <a id="display-files-after-error-text-link" th:href="@{/home}" >here</a> to continue.</span>
     </div>
 </div>
 </body>

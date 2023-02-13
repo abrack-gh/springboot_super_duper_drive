@@ -10,7 +10,7 @@ public class Credential {
     private Integer userid;
     private String unencodedPassword;
 
-    public Credential(Integer credentialid, String url, String username, String key, String password, String encryptedPassword, Integer userid) {
+    public Credential(Integer credentialid, String url, String username, String key, String password, Integer userid) {
         this.credentialid = credentialid;
         this.url = url;
         this.username = username;

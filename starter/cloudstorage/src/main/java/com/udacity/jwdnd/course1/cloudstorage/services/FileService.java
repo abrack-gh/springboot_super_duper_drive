@@ -4,9 +4,8 @@ import com.udacity.jwdnd.course1.cloudstorage.mapper.FileMapper;
 import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
 import com.udacity.jwdnd.course1.cloudstorage.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -23,14 +22,16 @@ public class FileService {
         this.userMapper = userMapper;
     }
 
-    public Integer saveFile(MultipartFile fileUpload, String username) throws IOException {
+    @Transactional
+    public Integer saveFile(File file, String username) throws IOException {
 
-        User user = this.userMapper.getUser(username);
+        User user = userMapper.getUser(username);
         Integer userid = user.getuserid();
 
-        //return fileMapper.insertFile((File) fileUpload);
 
-        return fileMapper.insertFile(new File(null, fileUpload.getOriginalFilename(), fileUpload.getContentType(), Long.toString(fileUpload.getSize()), userid.intValue(), fileUpload.getInputStream()));
+        //return fileMapper.insertFile((File) file);
+
+        return fileMapper.insertFile(new File(null, file.getfilename(), file.getcontenttype(), file.getfilesize(), userid.intValue()));
     }
 
     public List<File> getUploadedFiles(Integer userid){
@@ -57,5 +58,7 @@ public class FileService {
     }
 
 
-
+    public List<File> getAllFiles(Integer userid) {
+        return fileMapper.getAllFiles(userid);
+    }
 }

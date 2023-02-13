@@ -133,7 +133,7 @@
 //
 ///*
 //    @PostMapping("/upload")
-//    public String uploadFile(Model model, @RequestParam("fileUpload")MultipartFile file, Authentication authentication,
+//    public String uploadFile(Model model, @RequestParam("file")MultipartFile file, Authentication authentication,
 //                             @ModelAttribute("note")NoteForm noteForm, @ModelAttribute("credential") CredentialForm credentialForm){
 //        System.out.println("postFile" + file);
 //        String username = authentication.getName();

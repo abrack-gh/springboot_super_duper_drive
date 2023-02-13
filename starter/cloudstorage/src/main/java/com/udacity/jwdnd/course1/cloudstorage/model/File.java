@@ -23,7 +23,7 @@ public class File {
 
     }
 
-    public File(Integer fileid, String originalFilename, String contenttype, String filesize, int userid, InputStream inputStream) {
+    public File(Integer fileid, String originalFilename, String contenttype, String filesize, int userid) {
 
     }
 

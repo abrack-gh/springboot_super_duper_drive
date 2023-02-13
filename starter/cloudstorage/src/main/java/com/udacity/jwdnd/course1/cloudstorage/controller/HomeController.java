@@ -35,6 +35,11 @@ public class HomeController {
         this.userService = userService;
     }
 
+    public Integer userid(String username){
+
+        return userService.getUser(username).getuserid();
+    }
+
    /* @GetMapping
     public String home(@ModelAttribute("note") NoteForm note, @ModelAttribute("credential") CredentialForm credentialForm, Model model, Authentication authentication) {
         String username = authentication.getName();
@@ -51,8 +56,8 @@ public class HomeController {
 
     */
 
-    @GetMapping("/home")
-    public String home(Authentication authentication, Model model, File file, @ModelAttribute("noteObject") Notes notes, @ModelAttribute("credentialObject") Credential credential) {
+    @RequestMapping("/home")
+    public String home(Authentication authentication, Model model, File file, @ModelAttribute("notes") Notes notes, @ModelAttribute("credential") Credential credential) {
         String username = authentication.getName();
         User user = userMapper.getUser(username);
         if (user != null) {
@@ -69,7 +74,7 @@ public class HomeController {
     }
 
     @PostMapping("/home/note")
-    public String addNote(@ModelAttribute("noteObject") Notes notes, @ModelAttribute("credentialObject") Credential credential, Model model, Authentication authentication) {
+    public String addNote(@ModelAttribute("notes") Notes notes, @ModelAttribute("credential") Credential credential, Model model, Authentication authentication) {
         String username = authentication.getName();
         Integer userid = userMapper.getUser(username).getuserid();
         User user = userMapper.getUser(username);
@@ -100,8 +105,8 @@ public class HomeController {
         return "result";
     }
 
-    @DeleteMapping("/home/deleteNote/{id}")
-    public String deleteFile(@PathVariable("id") Integer noteId, @ModelAttribute("noteObject") Notes notes, Model model, Authentication authentication) {
+    @PostMapping("/home/deleteNote/{id}")
+    public String deleteFile(@PathVariable("id") Integer noteId, @ModelAttribute("notes") Notes notes, Model model, Authentication authentication) {
 
         String error = null;
 
@@ -120,31 +125,35 @@ public class HomeController {
     }
 
     @PostMapping("/home/credential")
-    public String addCredential(@ModelAttribute("noteObject") Notes notes, @ModelAttribute("credentialObject") Credential credential, Model model, Authentication authentication) {
+    public String addCredential(@ModelAttribute("credential") Credential credential, @ModelAttribute("note")Notes notes ,
+                                Model model, Authentication authentication, String username,
+                                User user) {
 
-        String error = null;
+        Map<Integer, String> passwordMap = new HashMap<>();
 
-        try {
-            new URL(credential.getUrl()).toURI();
-        } catch (Exception e) {
-            error = "Error";
+        Integer userid = user.getuserid();
+
+
+        if(credential.getCredentialId() == null){
+            Integer credentialId = credentialsService.insertCredential(credential, username);
+        } else {
+            credentialsService.updateCredential(credential, username);
         }
 
-        if (error == null) {
-            String username = authentication.getName();
-            if (credential.getCredentialId() == null) {
-                credentialsService.addCredential(credential, username);
-            } else {
-                credentialsService.updateCredential(credential, username);
-            }
-        }
+        model.addAttribute("userNotes", this.noteService.getNoteListings(userid));
+        model.addAttribute("unencryptedPasswordMap", this.credentialsService.getUnencryptedPassword(userid));
+        model.addAttribute("userCredentials", this.credentialsService.getAllCredentials(userid));
+        model.addAttribute("files", this.fileService.getAllFiles(userid));
 
         return "result";
 
     }
 
-    @DeleteMapping("/home/deleteCredential/{id}")
-    public String deleteCredential(@PathVariable("id") Integer id, @ModelAttribute("credentialObject") Credential credential, @ModelAttribute("noteObject") Notes notes, Model model, Authentication authentication) {
+    @PostMapping("/home/deleteCredential/{id}")
+    public String deleteCredential(@PathVariable("id") Integer id, @ModelAttribute("credential") Credential credential, @ModelAttribute("notes") Notes notes, Model model,
+                                   Authentication authentication, String username) {
+
+        Integer userid = userService.getUser(username).getuserid();
 
         String error = null;
 
@@ -159,34 +168,40 @@ public class HomeController {
         } else {
             model.addAttribute("errorType", error);
         }
+
+        model.addAttribute("files", this.fileService.getAllFiles(userid));
+
         return "result";
     }
-
     @PostMapping("/home/file-upload")
-    public String fileUpload(@RequestParam("fileUpload")MultipartFile fileUpload, Model model, Authentication authentication) throws IOException {
+    public String handleFileUpload(@RequestParam("file")MultipartFile fileUpload, File file, Model model, Authentication authentication) throws IOException {
 
         String username = authentication.getName();
 
         String error = null;
 
-        if (fileUpload.isEmpty()) {
-            error = "Empty file";
+        if(fileUpload.isEmpty() ){
+            error = "Failed to store empty file.";
         }
 
-        if (error == null) {
-            String filename = fileUpload.getOriginalFilename();
-            boolean filenameTaken = fileService.isfilenameAvailableForUser(username, filename);
-            if (filenameTaken) {
-                error = "File already exists";
-            } else if (error == null) {
-                fileService.saveFile(fileUpload, username);
-                model.addAttribute("isSuccess", true);
-                model.addAttribute("errorType", false);
-            }} else {
-                model.addAttribute("errorType", error);
+        if(error == null){
+            String fileName = fileUpload.getOriginalFilename();
+            boolean filenameTaken = fileService.isfilenameAvailableForUser(username, fileName);
+            if(filenameTaken){
+                error = "You have already stored a file under similar name";
             }
-            return "result";
         }
+
+        if(error == null){
+            fileService.saveFile(file, username);
+            model.addAttribute("successMessage", true);
+            model.addAttribute("failureMessage", false);
+        }else{
+            model.addAttribute("failureMessage", error);
+        }
+
+        return "result";
+    }
 
 
     @GetMapping("/home/view-file/{id}")
@@ -203,8 +218,8 @@ public class HomeController {
 
 
 
-    @DeleteMapping("/home/delete-file/{id}")
-    public String deleteFile(@PathVariable("id") Integer id, @ModelAttribute("credentialObject") Credential credential, @ModelAttribute("noteObject") Notes notes, Model model, Authentication authentication) throws IOException{
+    @PostMapping("/home/delete-file/{id}")
+    public String deleteFile(@PathVariable("id") Integer id, @ModelAttribute("credential") Credential credential, @ModelAttribute("notes") Notes notes, Model model, Authentication authentication) throws IOException{
 
         String error = null;
 
@@ -223,5 +238,11 @@ public class HomeController {
 
         return "result";
     }
+
+
+//    @GetMapping("/result")
+//    public String result(){
+//        return "home";
+//    }
 }
 

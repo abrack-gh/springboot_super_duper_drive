@@ -32,10 +32,10 @@
                     <div class="container">
                         <div class="row" style="margin: 1em;">
                             <div class="col-sm-2">
-                                <label for="fileUpload">Upload a New File:</label>
+                                <label for="file">Upload a New File:</label>
                             </div>
                             <div class="col-sm-6">
-                                <input type="file" class="form-control-file" id="fileUpload" name="fileUpload">
+                                <input type="file" class="form-control-file" id="file" name="file">
                             </div>
                             <div class="col-sm-4">
                                 <button type="submit" class="btn btn-dark" id="uploadButton">Upload</button>
@@ -108,7 +108,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="#" th:object="${noteObject}" method="POST" th:action="@{'/home/note'}">
+                                <form action="#" th:object="${notes}" method="POST" th:action="@{'/home/note'}">
                                     <input type="hidden" name="noteId" field="*{noteId}" id="note-id">
                                     <div class="form-group">
                                         <label for="note-title" class="col-form-label">Title</label>
@@ -180,7 +180,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="#" th:object="${credentialObject}" method="POST" th:action="@{'/home/credential'}" >
+                                <form action="#" th:object="${credential}" method="POST" th:action="@{'/home/credential'}" >
                                     <input type="hidden" name="credentialid" field="*{credentialid}" id="credential-id">
                                     <div class="form-group">
                                         <label for="credential-url" class="col-form-label">URL</label>
