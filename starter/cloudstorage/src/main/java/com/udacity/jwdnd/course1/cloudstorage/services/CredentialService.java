@@ -42,7 +42,7 @@ public class CredentialService {
         String encodedKey = Base64.getEncoder().encodeToString(key);
         String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), encodedKey);
 
-        return credentialMapper.insertCredential(new Credential(null, credential.getUrl(), credential.getUsername(), encodedKey, encryptedPassword, userid.intValue()));
+        return credentialMapper.insertCredential(new Credential(null, credential.getUrl(), credential.getUsername(), encodedKey, encryptedPassword, userid));
     }
 
     public List<Credential> getAllCredentials(int userid) {
