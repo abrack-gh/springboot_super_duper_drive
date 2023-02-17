@@ -31,8 +31,7 @@ public class CredentialService {
 
     public int insertCredential(Credential credential, String username) {
 
-        User user = new User();
-        String un = user.getUsername();
+        User user = userService.getUser(username);
         Integer userid = user.getuserid();
 
 
@@ -63,15 +62,19 @@ public class CredentialService {
         secureRandom.nextBytes(key);
         String encodedKey = Base64.getEncoder().encodeToString(key);
         String encryptedPassword = this.encryptionService.encryptValue(credential.getPassword(), encodedKey);
-        User user = userService.getUser(credentialUsername);
+//        User user = userService.getUser(credentialUsername);
         Integer userid = userService.getUser(credentialUsername).getuserid();
 
         this.credentialMapper.update(credentialid, url, credentialUsername, encodedKey, encryptedPassword, userid);
     }
 
+    public void deleteCredential(Integer credentialId){
+        this.credentialMapper.delete(credentialId);
+    }
+
     public Map<Integer, String> getUnencryptedPassword(Integer userid){
         Map<Integer, String> passwordMap = new HashMap<>();
-        List<Credential> credentialList = credentialMapper.getAllCredentials(userid);
+        List<Credential> credentialList = getAllCredentials(userid);
         for(Credential credential : credentialList){
             passwordMap.put(credential.getCredentialId(), encryptionService.decryptValue(credential.getPassword(), credential.getKey()));
         }

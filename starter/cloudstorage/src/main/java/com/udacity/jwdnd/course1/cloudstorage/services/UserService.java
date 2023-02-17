@@ -44,9 +44,6 @@ public class UserService {
         return userMapper.getUser(username);
     }
 
-    public int userid(String username){
-        return userMapper.getUserByUsername(username).getuserid();
-    }
 
 }
 

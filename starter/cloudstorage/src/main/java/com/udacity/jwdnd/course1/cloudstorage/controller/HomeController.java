@@ -135,13 +135,13 @@ public class HomeController {
 
 
         if(credential.getCredentialId() == null){
-            Integer credentialId = credentialsService.insertCredential(credential, username);
+            int credentialId = credentialsService.insertCredential(credential, username);
         } else {
             credentialsService.updateCredential(credential, username);
         }
 
         model.addAttribute("userNotes", this.noteService.getNoteListings(userid));
-        model.addAttribute("unencryptedPasswordMap", this.credentialsService.getUnencryptedPassword(userid));
+        model.addAttribute("unencryptedPasswordMap", credentialsService.getUnencryptedPassword(userid));
         model.addAttribute("userCredentials", this.credentialsService.getAllCredentials(userid));
         model.addAttribute("files", this.fileService.getAllFiles(userid));
 

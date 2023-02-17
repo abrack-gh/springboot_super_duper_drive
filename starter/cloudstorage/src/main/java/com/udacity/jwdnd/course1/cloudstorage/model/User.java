@@ -16,14 +16,19 @@ public class User {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-
     }
 
-    public User(String firstName) {
+    public void setUserid(Integer userid) {
+        this.userid = userid;
+    }
+
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
-
     }
 
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
     public User() {
 
