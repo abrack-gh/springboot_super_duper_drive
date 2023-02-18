@@ -44,7 +44,7 @@ public class CredentialService {
         return credentialMapper.insertCredential(new Credential(null, credential.getUrl(), credential.getUsername(), encodedKey, encryptedPassword, userid));
     }
 
-    public List<Credential> getAllCredentials(int userid) {
+    public List<Credential> getAllCredentials(Integer userid) {
 
         return credentialMapper.getAllCredentials(userid);
     }

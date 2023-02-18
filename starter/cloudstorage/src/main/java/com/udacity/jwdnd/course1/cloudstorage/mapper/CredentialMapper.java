@@ -9,7 +9,7 @@ import java.util.List;
 public interface CredentialMapper {
 
     @Select("SELECT * FROM CREDENTIALS WHERE userid = #{userid}")
-    List<Credential> getAllCredentials(int userid);
+    List<Credential> getAllCredentials(Integer userid);
 
     @Select("SELECT * FROM CREDENTIALS WHERE url = #{url}")
     Credential getCredential(String url);
