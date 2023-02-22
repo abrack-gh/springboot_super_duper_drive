@@ -57,16 +57,16 @@ public class HomeController {
     */
 
     @RequestMapping("/home")
-    public String home(Authentication authentication, Model model, File file, @ModelAttribute("notes") Notes notes, @ModelAttribute("credential") Credential credential) {
+    public String home(Authentication authentication, Model model, @ModelAttribute("fileUpload") File file, @ModelAttribute("notes") Notes notes, @ModelAttribute("credential") Credential credential) {
         String username = authentication.getName();
         User user = userMapper.getUser(username);
         if (user != null) {
             int userid = user.getuserid();
-            model.addAttribute("notes", notes);
+            model.addAttribute("notes", this.noteService.getNoteListings(userid));
             List<Notes> notesList = noteService.getNoteListings(userid);
-            model.addAttribute("file", file);
-            List<File> filesList = fileService.getUploadedFiles(userid);
-            model.addAttribute("credential", credential);
+            model.addAttribute("fileUpload", this.fileService.getUploadedFiles(userid));
+            List<File> filesList = this.fileService.getUploadedFiles(userid);
+            model.addAttribute("credential", this.credentialsService.getAllCredentials(userid));
             List<Credential> credentials = credentialsService.getAllCredentials(userid);
             return "home";
         }
@@ -174,7 +174,7 @@ public class HomeController {
         return "result";
     }
     @PostMapping("/home/file-upload")
-    public String handleFileUpload(@RequestParam("file")MultipartFile fileUpload, File file, Model model, Authentication authentication) throws IOException {
+    public String handleFileUpload(@RequestParam("fileUpload")MultipartFile fileUpload, File file, Model model, Authentication authentication) throws IOException {
 
         String username = authentication.getName();
 
